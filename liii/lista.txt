@@ -1,0 +1,12 @@
+limpeza | medio
+ macarao | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+ papel | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+****
+limpeza | medio
+ macarao | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+ papel | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+****
+limpeza | medio
+ macarao | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+ papel | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+****
