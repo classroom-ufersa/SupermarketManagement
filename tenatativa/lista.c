@@ -12,6 +12,7 @@
 // typedef struct listaprodutos ListaProdutos;
 
 
+
 ListaDepartamento* lstdep_cria(){
   ListaDepartamento* novo = (ListaDepartamento*)malloc(sizeof(ListaDepartamento));
   if(novo == NULL){
