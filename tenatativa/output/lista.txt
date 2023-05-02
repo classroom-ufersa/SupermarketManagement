@@ -1,12 +1,15 @@
-limpeza | medio
- macarao | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
- papel | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+limpeza|medio
+manga|30/05/2023val|02/03/2023fab|5 disp|5.50
+papel|02/03/2023fab|30/05/2023val|5 disp |4.00
+macarao|02/03/2023fab|30/05/2023val|5 disp|4.00
 ****
-limpeza | medio
- macarao | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
- papel | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+medicamento|medio
+manga|30/05/2023val|02/03/2023fab|5 disp|5.50
+papel|02/03/2023fab|30/05/2023val|5 disp |4.00
+macarao|02/03/2023fab|30/05/2023val|5 disp|4.00
 ****
-limpeza | medio
- macarao | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
- papel | 02/03/2023fab | 30/05/2023val | 5 disp |4.00
+bebida|medio
+manga|30/05/2023val|02/03/2023fab|5 disp|5.50
+papel|02/03/2023fab|30/05/2023val|5 disp |4.00
+macarao|02/03/2023fab|30/05/2023val|5 disp|4.00
 ****

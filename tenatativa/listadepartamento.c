@@ -99,3 +99,30 @@ void lst_imprime(ListaDepartamento* l){
   }
 }
 
+void lst_insere(ListaDepartamento* l, char* tipo, char* validade, char* fabricacao, char* estoque, char* nome_departamento, float preco){
+  ListaDepartamento* d = l;
+  ListaProdutos* novo = lstprod_cria();
+  if(novo == NULL){
+    printf("erro!!!");
+    exit(1);
+  }
+
+  strcpy(novo->info->tipo,tipo);
+  strcpy(novo->info->fabricacao,fabricacao);
+  strcpy(novo->info->nome_departamento,nome_departamento);
+  strcpy(novo->info->validade,validade);
+  strcpy(novo->info->estoque, estoque);
+  novo->info->preco = preco;
+
+  //printf(" %s %s %s %s %.2f\n",novo->info->tipo,novo->info->fabricacao,novo->info->validade,novo->info->estoque,novo->info->preco);
+  
+  while(d != NULL){
+    
+    if(strcmp(d->info->nome,nome_departamento) == 0){
+      novo->prox_prod = d->info->lista_produtos;
+      d->info->lista_produtos = novo;
+    }
+    d = d->prox;
+  }
+  l = d;
+}
