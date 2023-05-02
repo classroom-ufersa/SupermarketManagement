@@ -10,6 +10,11 @@ struct listadepartamento{
   ListaDepartamento* prox;
 };
 
+void menu(){
+  printf("\n\t\tMenu\n");
+  printf("1 - Adicionar produto;\n2 - Remover produto;\n3 - Listar produtos cadastrados;\n4 - Editar produto;\n5 - Buscar produto;\n6 - Consultar produtos disponíveis em um dado departamento.\n7 - Consultar quantitativo de produtos por departamento;\n8 - Sair.\n");
+}
+
 ListaDepartamento* lstdep_cria(){
   ListaDepartamento* novo = (ListaDepartamento*)malloc(sizeof(ListaDepartamento));
   if(novo == NULL){
@@ -99,6 +104,28 @@ void lst_imprime(ListaDepartamento* l){
   }
 }
 
+void busca_produto(ListaDepartamento* l, char* nome_produto){
+  printf("antes do while");
+  ListaDepartamento* auxiliar=l;
+  printf("antes do while");
+  while(auxiliar->info->lista_produtos->prox_prod!=NULL){
+    printf("entrou no while");
+    if(strcmp(nome_produto,auxiliar->info->lista_produtos->info->tipo)==0){
+      printf("entrou no if");
+      printf("nome do departamento que se encontra o produto: %s",auxiliar->info->lista_produtos->info->nome_departamento);
+      printf("preço do produto: %s",auxiliar->info->lista_produtos->info->tipo);
+      printf("data de fabricação do produto: %s",auxiliar->info->lista_produtos->info->fabricacao);
+      printf("data de validade do produto: %s",auxiliar->info->lista_produtos->info->validade);
+      printf("quantidade disponivel em estoque: %s",auxiliar->info->lista_produtos->info->estoque);
+      //  return (auxiliar->info->lista_produtos->info);
+    }else{
+      printf("produto não encontrado");
+    }
+    auxiliar=auxiliar->prox;
+  }
+
+}
+
 void lst_insere(ListaDepartamento* l, char* tipo, char* validade, char* fabricacao, char* estoque, char* nome_departamento, float preco){
   ListaDepartamento* d = l;
   ListaProdutos* novo = lstprod_cria();
@@ -114,8 +141,6 @@ void lst_insere(ListaDepartamento* l, char* tipo, char* validade, char* fabricac
   strcpy(novo->info->estoque, estoque);
   novo->info->preco = preco;
 
-  //printf(" %s %s %s %s %.2f\n",novo->info->tipo,novo->info->fabricacao,novo->info->validade,novo->info->estoque,novo->info->preco);
-  
   while(d != NULL){
     
     if(strcmp(d->info->nome,nome_departamento) == 0){
