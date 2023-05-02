@@ -7,7 +7,7 @@ typedef struct listaprodutos ListaProdutos;
 
 struct listaprodutos{
    Produto* info;
-   struct listaprodutos* prox_prod;
+   ListaProdutos* prox_prod;
 };
 
 ListaProdutos* lstprod_cria(){
@@ -22,9 +22,6 @@ ListaProdutos* lstprod_cria(){
 }
 
 ListaProdutos* ler_produto(char* linha){
-  if(strcmp(linha, "****\n") == 0){
-    return NULL;
-  }
   ListaProdutos* p = lstprod_cria();
   if(p == NULL){
     printf("Erro!!!\n");

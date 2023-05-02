@@ -17,5 +17,6 @@ Departamento* aloca_departamento(void){
     printf("erro!!\n");
     exit(1);
   }
+  d->lista_produtos = NULL;
   return d;
 }

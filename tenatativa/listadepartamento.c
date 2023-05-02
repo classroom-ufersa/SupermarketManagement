@@ -6,7 +6,7 @@
 typedef struct listadepartamento ListaDepartamento;
 
 struct listadepartamento{
-  struct departamento* info;
+  Departamento* info;
   ListaDepartamento* prox;
 };
 
@@ -86,51 +86,16 @@ ListaDepartamento* lst_ler(void){
   return l;
 }
 
-// ListaDepartamento* lst_ler(){
-//   ListaDepartamento* l;
-//   ListaDepartamento* d;
-//   ListaProdutos* p;
-//   int qtd_prod = 0;
-//   int qtd_dep = 0;
-//   int verifica_dep = 0;
-//   char linha[100];
-//   FILE* arq = fopen("lista.txt", "rt");
-//   if (arq == NULL){
-//     printf("erro ao abrir o arquivo\n");
-//     exit(1);
-//   }
-//   printf("aaaaaaa\n");
-//   while(fgets(linha, 100, arq) != NULL){
-    
-//     if(strcmp(linha, "****\n") == 0){
-//       verifica_dep = 0;
-//     }else if(verifica_dep == 0){
-//       d = lstdep_cria();
-//       verifica_dep++;
-//       qtd_dep++;
-//       d->info->qtd_prod = qtd_prod;
-//       qtd_prod = 0;
-//       if(qtd_dep == 1){
-//         l = d;
-//       }else{
-//         d->prox = l;
-//         l = d;
-//       }
-//       sscanf(linha, " %[^|]| %[^\n]", d->info->nome, d->info->porte);
-//     }else{
-//       p  = lstprod_cria();
-//       qtd_prod++;
-//       strcpy(p->info->nome_departamento,d->info->nome);
-//       sscanf(linha, " %[^|]|  %[^|]|  %[^|]|  %[^|]| %f", p->info->tipo,  p->info->fabricacao, p->info->validade, p->info->estoque,&p->info->preco);
-//       if(qtd_prod == 1){
-//         d->info->lista_produtos = p;
-//       }else{
-//         p->prox_prod = d->info->lista_produtos;
-//         d->info->lista_produtos = p;
-//       }
-//     }
-//   }
+void lst_imprime(ListaDepartamento* l){
+  ListaDepartamento* d=l;
+  ListaProdutos* p;
+  while(d!=NULL){
+    printf("%s %s\n",d->info->nome,d->info->porte);
+    for(p=d->info->lista_produtos;p!=NULL;p=p->prox_prod){
+      printf(" %s %s %s %s %.2f\n",p->info->tipo,p->info->fabricacao,p->info->validade,p->info->estoque,p->info->preco);
+    }
+    printf("-----------------------------------------------------------\n");
+    d=d->prox;
+  }
+}
 
-//   fclose(arq);
-//   return l;
-// }
