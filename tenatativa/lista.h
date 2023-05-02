@@ -5,7 +5,7 @@
 
 ListaDepartamento* lstdep_cria();
 
-ListaProdutos* lstprod_cria();
+//ListaProdutos* lstprod_cria();
 
 ListaDepartamento* lst_ler();
 
