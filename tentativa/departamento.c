@@ -8,7 +8,7 @@ struct departamento{
   char nome[50];
   char porte[20];
   int quantidade_produtos;
-  struct listaprodutos* lista_produtos;
+  ListaProdutos* lista_produtos;
 };
 
 Departamento* aloca_departamento(void){
@@ -22,7 +22,7 @@ Departamento* aloca_departamento(void){
 }
 
 int verifica_departamento_vazio(Departamento* departamento){
-    return (departamento->qtd_prod == 0);
+    return (departamento->quantidade_produtos == 0);
 }
 
 int verifica_quantidade

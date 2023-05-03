@@ -34,14 +34,14 @@ ListaDepartamento* ler_departamento_txt(char* linha){
   return departamento_auxiliar;
 }
 
-void lst_imprime_txt(ListaDepartamento* lista_departamentos){
+void lista_imprime_txt(ListaDepartamento* lista_departamentos){
   ListaDepartamento* departamento_auxiliar=lista_departamentos;
   ListaProdutos* lista_produtos;
   FILE* arquivo=fopen("lista_teste.txt","wt");
   while(departamento_auxiliar!=NULL){
     fprintf(arquivo,"%s| %s\n",departamento_auxiliar->info_departamento->nome,departamento_auxiliar->info_departamento->porte);
-    for(lista_produtos=departamento_auxiliar->info_departamento->lista_produtos;lista_produtos!=NULL;lista_produtos=lista_produtos->prox_prod){
-      fprintf(arquivo," %s| %s| %s| %s|%.2f\n",lista_produtos->info->tipo,lista_produtos->info->fabricacao,lista_produtos->info->validade,lista_produtos->info->estoque,lista_produtos->info->preco);
+    for(lista_produtos=departamento_auxiliar->info_departamento->lista_produtos;lista_produtos!=NULL;lista_produtos=lista_produtos->proxima_lista_produto){
+      fprintf(arquivo," %s| %s| %s| %s|%.2f\n",lista_produtos->info_produto->tipo,lista_produtos->info_produto->fabricacao,lista_produtos->info_produto->validade,lista_produtos->info_produto->estoque,lista_produtos->info_produto->preco);
     }
     fprintf(arquivo,"****\n");
     departamento_auxiliar=departamento_auxiliar->proxima_lista_departamento;
@@ -49,7 +49,7 @@ void lst_imprime_txt(ListaDepartamento* lista_departamentos){
   fclose(arquivo);
 }
 
-ListaDepartamento* lst_ler(void){
+ListaDepartamento* ler_lista_departamentos(void){
   ListaDepartamento* lista_departamento; //l
   ListaDepartamento* lista_departamento_auxiliar; //d
   ListaProdutos*  lista_produtos;//p
@@ -78,11 +78,11 @@ ListaDepartamento* lst_ler(void){
     }else{
       lista_produtos  = ler_produto_txt(linha);
       quantidade_produtos++;
-      strcpy(lista_produtos->info->nome_departamento,lista_departamento_auxiliar->info_departamento->nome);
+      strcpy(lista_produtos->info_produto->nome_departamento,lista_departamento_auxiliar->info_departamento->nome);
       if(quantidade_produtos == 1){
         lista_departamento_auxiliar->info_departamento->lista_produtos = lista_produtos;
       }else{
-        lista_produtos->prox_prod = lista_departamento_auxiliar->info_departamento->lista_produtos;
+        lista_produtos->proxima_lista_produto = lista_departamento_auxiliar->info_departamento->lista_produtos;
         lista_departamento_auxiliar->info_departamento->lista_produtos = lista_produtos;
       }
     }
@@ -91,13 +91,13 @@ ListaDepartamento* lst_ler(void){
   return lista_departamento;
 }
 
-void lst_imprime(ListaDepartamento* lista_departamento){//l
+void lista_departamento_imprime(ListaDepartamento* lista_departamento){//l
   ListaDepartamento*  lista_departamento_auxiliar=lista_departamento; //d
   ListaProdutos*  lista_produtos;//p
   while(lista_departamento_auxiliar!=NULL){
     printf("%s %s\n",lista_departamento_auxiliar->info_departamento->nome,lista_departamento_auxiliar->info_departamento->porte);
-    for(lista_produtos=lista_departamento_auxiliar->info_departamento->lista_produtos;lista_produtos!=NULL;lista_produtos=lista_produtos->prox_prod){
-      printf(" %s %s %s %s %.2f\n",lista_produtos->info->tipo,lista_produtos->info->fabricacao,lista_produtos->info->validade,lista_produtos->info->estoque,lista_produtos->info->preco);
+    for(lista_produtos=lista_departamento_auxiliar->info_departamento->lista_produtos;lista_produtos!=NULL;lista_produtos=lista_produtos->proxima_lista_produto){
+      printf(" %s %s %s %s %.2f\n",lista_produtos->info_produto->tipo,lista_produtos->info_produto->fabricacao,lista_produtos->info_produto->validade,lista_produtos->info_produto->estoque,lista_produtos->info_produto->preco);
     }
     printf("-----------------------------------------------------------\n");
     lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
@@ -105,53 +105,53 @@ void lst_imprime(ListaDepartamento* lista_departamento){//l
 }
 
 void busca_produto(ListaDepartamento* lista_departamento, char* nome_produto){
-  ListaDepartamento* auxiliar_departamento = l;
-  ListaProdutos* auxiliar_produto; 
+  ListaDepartamento* lista_departamento_auxiliar = lista_departamento;
+  ListaProdutos* lista_produto_auxiliar; 
    
-   while(auxiliar_departamento != NULL){
-    auxiliar_produto = auxiliar_departamento->info->lista_produtos;
-    while (auxiliar_produto != NULL){
+   while(lista_departamento_auxiliar != NULL){
+    lista_produto_auxiliar = lista_departamento_auxiliar->info_departamento->lista_produtos;
+    while (lista_produto_auxiliar != NULL){
       
-   if(strcmp(auxiliar_produto->info->tipo, nome_produto) == 0){
-      printf("nome do departamento que se encontra o produto: %s\n",auxiliar_produto->info->nome_departamento);
-      printf("preço do produto: %.2f\n",auxiliar_produto->info->preco);
-      printf("data de fabricação do produto: %s\n",auxiliar_produto->info->fabricacao);
-      printf("data de validade do produto: %s\n",auxiliar_produto->info->validade);
-      printf("quantidade disponivel em estoque: %s\n\n",auxiliar_produto->info->estoque);
+   if(strcmp(lista_produto_auxiliar->info_produto->tipo, nome_produto) == 0){
+      printf("nome do departamento que se encontra o produto: %s\n",lista_produto_auxiliar->info_produto->nome_departamento);
+      printf("preço do produto: %.2f\n",lista_produto_auxiliar->info_produto->preco);
+      printf("data de fabricação do produto: %s\n",lista_produto_auxiliar->info_produto->fabricacao);
+      printf("data de validade do produto: %s\n",lista_produto_auxiliar->info_produto->validade);
+      printf("quantidade disponivel em estoque: %s\n\n",lista_produto_auxiliar->info_produto->estoque);
       //  return (auxiliar->info->lista_produtos->info);
     }
     // else{
     //   printf("produto não encontrado");
     // }
-      auxiliar_produto = auxiliar_produto->prox_prod;
+      lista_produto_auxiliar = lista_produto_auxiliar->proxima_lista_produto;
     }
-    auxiliar_departamento = auxiliar_departamento->prox;
+    lista_departamento_auxiliar = lista_departamento_auxiliar->proxima_lista_departamento;
   }
   
 }
 
-void lst_insere(ListaDepartamento* l, char* tipo, char* validade, char* fabricacao, char* estoque, char* nome_departamento, float preco){
-  ListaDepartamento* d = l;
-  ListaProdutos* novo = lstprod_cria();
-  if(novo == NULL){
+void insere_novo_produto(ListaDepartamento* lista_departamento, char* tipo, char* validade, char* fabricacao, char* estoque, char* nome_departamento, float preco){
+  ListaDepartamento*  lista_departamento_auxiliar = lista_departamento;
+  ListaProdutos* novo_produto = cria_lista_produto();
+  if(novo_produto == NULL){
     printf("erro!!!");
     exit(1);
   }
 
-  strcpy(novo->info->tipo,tipo);
-  strcpy(novo->info->fabricacao,fabricacao);
-  strcpy(novo->info->nome_departamento,nome_departamento);
-  strcpy(novo->info->validade,validade);
-  strcpy(novo->info->estoque, estoque);
-  novo->info->preco = preco;
+  strcpy(novo_produto->info_produto->tipo,tipo);
+  strcpy(novo_produto->info_produto->fabricacao,fabricacao);
+  strcpy(novo_produto->info_produto->nome_departamento,nome_departamento);
+  strcpy(novo_produto->info_produto->validade,validade);
+  strcpy(novo_produto->info_produto->estoque, estoque);
+  novo_produto->info_produto->preco = preco;
 
-  while(d != NULL){
+  while(lista_departamento_auxiliar != NULL){
     
-    if(strcmp(d->info->nome,nome_departamento) == 0){
-      novo->prox_prod = d->info->lista_produtos;
-      d->info->lista_produtos = novo;
+    if(strcmp(lista_departamento_auxiliar->info_departamento->nome,nome_departamento) == 0){
+      novo_produto->proxima_lista_produto = lista_departamento_auxiliar->info_departamento->lista_produtos;
+      lista_departamento_auxiliar->info_departamento->lista_produtos = novo_produto;
     }
-    d = d->prox;
+    lista_departamento_auxiliar = lista_departamento_auxiliar->proxima_lista_departamento;
   }
-  l = d;
+  lista_departamento = lista_departamento_auxiliar;
 }
