@@ -112,7 +112,7 @@ void busca_produto(ListaDepartamento* lista_departamento, char* nome_produto){
     auxiliar_produto = auxiliar_departamento->info->lista_produtos;
     while (auxiliar_produto != NULL){
       
-   if(strcmp(auxiliar_produto->info->tipo, nome_produto) == 0){
+   if(strcmp(auxiliar_produto->tipo, nome_produto) == 0){
       printf("nome do departamento que se encontra o produto: %s\n",auxiliar_produto->info->nome_departamento);
       printf("preço do produto: %.2f\n",auxiliar_produto->info->preco);
       printf("data de fabricação do produto: %s\n",auxiliar_produto->info->fabricacao);
@@ -123,9 +123,9 @@ void busca_produto(ListaDepartamento* lista_departamento, char* nome_produto){
     // else{
     //   printf("produto não encontrado");
     // }
-      auxiliar_produto = auxiliar_produto->prox_prod;
+      auxiliar_produto = auxiliar_produto->proxima_lista_produto;
     }
-    auxiliar_departamento = auxiliar_departamento->prox;
+    auxiliar_departamento = auxiliar_departamento->proxima_lista_departamento;
   }
   
 }
