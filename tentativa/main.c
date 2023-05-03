@@ -8,7 +8,7 @@ int main(void) {
   char produto_buscado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50],estoque[50];
  
   float preco;
-  ListaDepartamento* lista_departamentos = lst_ler();
+  ListaDepartamento* lista_departamentos = ler_lista_departamentos();
  
 
   do{
@@ -33,8 +33,8 @@ int main(void) {
         scanf(" %[^\n]",estoque);
         printf("digite o nome do departamento em que esse produto vai estar: ");
         scanf(" %[^\n]",nome_departamento);
-        lst_insere(lista_departamentos,tipo,validade,fabricacao,estoque,nome_departamento,preco);
-        lst_imprime_txt(lista_departamentos);
+        insere_novo_produto(lista_departamentos,tipo,validade,fabricacao,estoque,nome_departamento,preco);
+        lista_imprime_txt(lista_departamentos);
 
         break;
       case 2:
@@ -43,7 +43,8 @@ int main(void) {
       case 3:
 
         printf("\nListando os departamentos:\n\n");
-        lst_imprime(lista_departamentos );
+        //lista_imprime_txt(lista_departamentos);
+        lista_departamento_imprime(lista_departamentos );
         
   
        break;
@@ -66,11 +67,8 @@ int main(void) {
   
         break;
       case 8:
-        
         printf("\n|finalização do progama|\n");
-        
-
-
+        lista_imprime_txt(lista_departamentos);
         break;
       default:
         printf("\no numero digitado não está entre as opções\n\n");
