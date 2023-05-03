@@ -50,8 +50,8 @@ void lista_imprime_txt(ListaDepartamento* lista_departamentos){
 }
 
 ListaDepartamento* ler_lista_departamentos(void){
-  ListaDepartamento* lista_departamento; //l
-  ListaDepartamento* lista_departamento_auxiliar; //d
+  ListaDepartamento* lista_departamento; 
+  ListaDepartamento* lista_departamento_auxiliar; 
   ListaProdutos*  lista_produtos;//p
   int quantidade_produtos = 0;
   int quantidade_departamentos = 0;
@@ -91,8 +91,8 @@ ListaDepartamento* ler_lista_departamentos(void){
   return lista_departamento;
 }
 
-void lista_departamento_imprime(ListaDepartamento* lista_departamento){//l
-  ListaDepartamento*  lista_departamento_auxiliar=lista_departamento; //d
+void lista_departamento_imprime(ListaDepartamento* lista_departamento){
+  ListaDepartamento*  lista_departamento_auxiliar=lista_departamento; 
   ListaProdutos*  lista_produtos;//p
   while(lista_departamento_auxiliar!=NULL){
     printf("%s %s\n",lista_departamento_auxiliar->info_departamento->nome,lista_departamento_auxiliar->info_departamento->porte);
