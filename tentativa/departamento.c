@@ -7,16 +7,16 @@ typedef struct departamento Departamento;
 struct departamento{
   char nome[50];
   char porte[20];
-  int qtd_prod;
+  int quantidade_produtos;
   struct listaprodutos* lista_produtos;
 };
 
 Departamento* aloca_departamento(void){
-  Departamento* d = (Departamento*)malloc(sizeof(Departamento));
-  if(d == NULL){
+  Departamento* novo_departamento = (Departamento*)malloc(sizeof(Departamento));
+  if(novo_departamento == NULL){
     printf("erro!!\n");
     exit(1);
   }
-  d->lista_produtos = NULL;
-  return d;
+  novo_departamento->lista_produtos = NULL;
+  return novo_departamento;
 }
