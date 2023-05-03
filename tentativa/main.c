@@ -43,6 +43,7 @@ int main(void) {
       case 3:
 
         printf("\nListando os departamentos:\n\n");
+        //lista_imprime_txt(lista_departamentos);
         lista_departamento_imprime(lista_departamentos );
         
   
@@ -66,7 +67,6 @@ int main(void) {
   
         break;
       case 8:
-        
         printf("\n|finalização do progama|\n");
         
         break;

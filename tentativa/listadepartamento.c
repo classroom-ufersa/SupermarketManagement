@@ -30,21 +30,21 @@ ListaDepartamento* cria_lista_departamento(){
 
 ListaDepartamento* ler_departamento_txt(char* linha){
   ListaDepartamento* departamento_auxiliar = cria_lista_departamento(); 
-  sscanf(linha, " %[^|]| %[^\n]s", departamento_auxiliar->info_departamento->nome, departamento_auxiliar->info_departamento->porte);
+  sscanf(linha, " %[^|]| %[^\n]", departamento_auxiliar->info_departamento->nome, departamento_auxiliar->info_departamento->porte);
   return departamento_auxiliar;
 }
 
 void lista_imprime_txt(ListaDepartamento* lista_departamentos){
-  ListaDepartamento* departamento_auxiliar=lista_departamentos;
+  ListaDepartamento* departamento_auxiliar = lista_departamentos;
   ListaProdutos* lista_produtos;
-  FILE* arquivo=fopen("lista_teste.txt","wt");
-  while(departamento_auxiliar!=NULL){
+  FILE* arquivo = fopen("lista_teste.txt","wt");
+  while(departamento_auxiliar != NULL){
     fprintf(arquivo,"%s| %s\n",departamento_auxiliar->info_departamento->nome,departamento_auxiliar->info_departamento->porte);
-    for(lista_produtos=departamento_auxiliar->info_departamento->lista_produtos;lista_produtos!=NULL;lista_produtos=lista_produtos->proxima_lista_produto){
-      fprintf(arquivo," %s| %s| %s| %s|%.2f\n",lista_produtos->info_produto->tipo,lista_produtos->info_produto->fabricacao,lista_produtos->info_produto->validade,lista_produtos->info_produto->estoque,lista_produtos->info_produto->preco);
+    for(lista_produtos = departamento_auxiliar->info_departamento->lista_produtos; lista_produtos != NULL; lista_produtos = lista_produtos->proxima_lista_produto){
+      fprintf(arquivo," %s| %s| %s| %s|%.2f\n", lista_produtos->info_produto->tipo, lista_produtos->info_produto->fabricacao, lista_produtos->info_produto->validade, lista_produtos->info_produto->estoque, lista_produtos->info_produto->preco);
     }
     fprintf(arquivo,"****\n");
-    departamento_auxiliar=departamento_auxiliar->proxima_lista_departamento;
+    departamento_auxiliar = departamento_auxiliar->proxima_lista_departamento;
   }
   fclose(arquivo);
 }
@@ -58,6 +58,12 @@ ListaDepartamento* ler_lista_departamentos(void){
   int verifica_departamento = 0;
   char linha[100];
   FILE* arquivo = fopen("lista.txt", "rt");
+  
+  if (arquivo == NULL){
+    printf("erro!!");
+    exit(1);
+  }
+  
 
   while(fgets(linha, 100, arquivo) != NULL){
     if(strcmp(linha, "****\n") == 0){
@@ -95,9 +101,9 @@ void lista_departamento_imprime(ListaDepartamento* lista_departamento){
   ListaDepartamento*  lista_departamento_auxiliar=lista_departamento; 
   ListaProdutos*  lista_produtos;//p
   while(lista_departamento_auxiliar!=NULL){
-    printf("%s %s\n",lista_departamento_auxiliar->info_departamento->nome,lista_departamento_auxiliar->info_departamento->porte);
-    for(lista_produtos=lista_departamento_auxiliar->info_departamento->lista_produtos;lista_produtos!=NULL;lista_produtos=lista_produtos->proxima_lista_produto){
-      printf(" %s %s %s %s %.2f\n",lista_produtos->info_produto->tipo,lista_produtos->info_produto->fabricacao,lista_produtos->info_produto->validade,lista_produtos->info_produto->estoque,lista_produtos->info_produto->preco);
+    printf("%s %s\n", lista_departamento_auxiliar->info_departamento->nome, lista_departamento_auxiliar->info_departamento->porte);
+    for(lista_produtos = lista_departamento_auxiliar->info_departamento->lista_produtos; lista_produtos !=NULL ;lista_produtos = lista_produtos->proxima_lista_produto){
+      printf(" %s %s %s %s %.2f\n", lista_produtos->info_produto->tipo,lista_produtos->info_produto->fabricacao,lista_produtos->info_produto->validade,lista_produtos->info_produto->estoque,lista_produtos->info_produto->preco);
     }
     printf("-----------------------------------------------------------\n");
     lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
