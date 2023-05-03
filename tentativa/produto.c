@@ -13,10 +13,12 @@ struct produto{
 };
 
 Produto* aloca_produto(void){
-  Produto* p = (Produto*)malloc(sizeof(Produto));
-  if (p == NULL){
+  Produto* novo_produto = (Produto*)malloc(sizeof(Produto));
+  if (novo_produto == NULL){
     printf("erro!!\n");
     exit(1);
   }
-  return p;
+  return novo_produto;
 }
+
+

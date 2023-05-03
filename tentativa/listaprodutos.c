@@ -6,27 +6,27 @@
 typedef struct listaprodutos ListaProdutos;
 
 struct listaprodutos{
-   Produto* info;
-   ListaProdutos* prox_prod;
+   Produto* info_produto;
+   ListaProdutos* proxima_lista_produto;
 };
 
-ListaProdutos* lstprod_cria(){
-  ListaProdutos* novo = (ListaProdutos*)malloc(sizeof(ListaProdutos));
-  if(novo == NULL){
+ListaProdutos* cria_lista_produto(){
+  ListaProdutos* nova_lista_produto = (ListaProdutos*)malloc(sizeof(ListaProdutos));
+  if(nova_lista_produto == NULL){
     printf("erro!!\n");
     exit(1);
   }
-  novo->prox_prod = NULL;
-  novo->info = aloca_produto(); 
-  return novo;
+  nova_lista_produto->info_produto = NULL;
+  nova_lista_produto->info_produto = aloca_produto(); 
+  return nova_lista_produto;
 }
 
-ListaProdutos* ler_produto(char* linha){
-  ListaProdutos* p = lstprod_cria();
-  if(p == NULL){
+ListaProdutos* ler_produto_txt(char* linha){
+  ListaProdutos* nova_lista_produto = cria_lista_produto();
+  if(nova_lista_produto == NULL){
     printf("Erro!!!\n");
     exit(1);
   }
-  sscanf(linha," %[^|]| %[^|]| %[^|]| %[^|]| %f", p->info->tipo, p->info->fabricacao, p->info->validade, p->info->estoque, &p->info->preco);
-  return p;
+  sscanf(linha," %[^|]| %[^|]| %[^|]| %[^|]| %f", nova_lista_produto->info_produto->tipo, nova_lista_produto->info_produto->fabricacao, nova_lista_produto->info_produto->validade, nova_lista_produto->info_produto->estoque, &nova_lista_produto->info_produto->preco);
+  return nova_lista_produto;
 }

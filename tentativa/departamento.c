@@ -20,3 +20,9 @@ Departamento* aloca_departamento(void){
   d->lista_produtos = NULL;
   return d;
 }
+
+int verifica_departamento_vazio(Departamento* departamento){
+    return (departamento->qtd_prod == 0);
+}
+
+int verifica_quantidade
