@@ -25,4 +25,8 @@ int verifica_departamento_vazio(Departamento* departamento){
     return (departamento->quantidade_produtos == 0);
 }
 
-int verifica_quantidade
+int verifica_quantidade_produto(Departamento* departamento){
+  return departamento->quantidade_produtos;
+}
+
+

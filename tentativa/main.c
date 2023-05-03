@@ -70,7 +70,7 @@ int main(void) {
         printf("\n|finalização do progama|\n");
         
 
-        
+
         break;
       default:
         printf("\no numero digitado não está entre as opções\n\n");
