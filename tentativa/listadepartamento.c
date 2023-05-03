@@ -105,25 +105,29 @@ void lst_imprime(ListaDepartamento* l){
 }
 
 void busca_produto(ListaDepartamento* l, char* nome_produto){
-  printf("antes do while");
-  ListaDepartamento* auxiliar=l;
-  printf("antes do while");
-  while(auxiliar->info->lista_produtos->prox_prod!=NULL){
-    printf("entrou no while");
-    if(strcmp(nome_produto,auxiliar->info->lista_produtos->info->tipo)==0){
-      printf("entrou no if");
-      printf("nome do departamento que se encontra o produto: %s",auxiliar->info->lista_produtos->info->nome_departamento);
-      printf("preço do produto: %s",auxiliar->info->lista_produtos->info->tipo);
-      printf("data de fabricação do produto: %s",auxiliar->info->lista_produtos->info->fabricacao);
-      printf("data de validade do produto: %s",auxiliar->info->lista_produtos->info->validade);
-      printf("quantidade disponivel em estoque: %s",auxiliar->info->lista_produtos->info->estoque);
+  ListaDepartamento* auxiliar_departamento = l;
+  ListaProdutos* auxiliar_produto; 
+   
+   while(auxiliar_departamento != NULL){
+    auxiliar_produto = auxiliar_departamento->info->lista_produtos;
+    while (auxiliar_produto != NULL){
+      
+   if(strcmp(auxiliar_produto->info->tipo, nome_produto) == 0){
+      printf("nome do departamento que se encontra o produto: %s\n",auxiliar_produto->info->nome_departamento);
+      printf("preço do produto: %.2f\n",auxiliar_produto->info->preco);
+      printf("data de fabricação do produto: %s\n",auxiliar_produto->info->fabricacao);
+      printf("data de validade do produto: %s\n",auxiliar_produto->info->validade);
+      printf("quantidade disponivel em estoque: %s\n\n",auxiliar_produto->info->estoque);
       //  return (auxiliar->info->lista_produtos->info);
-    }else{
-      printf("produto não encontrado");
     }
-    auxiliar=auxiliar->prox;
+    // else{
+    //   printf("produto não encontrado");
+    // }
+      auxiliar_produto = auxiliar_produto->prox_prod;
+    }
+    auxiliar_departamento = auxiliar_departamento->prox;
   }
-
+  
 }
 
 void lst_insere(ListaDepartamento* l, char* tipo, char* validade, char* fabricacao, char* estoque, char* nome_departamento, float preco){

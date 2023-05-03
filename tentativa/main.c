@@ -37,10 +37,11 @@ int main(void) {
   
         break;
       case 5:
-        printf("Buscando produto...\n");
-        printf("digite o nome do produto que deseja buscar: ");
-        scanf(" %[^\n]",produto_buscado);
-        busca_produto(lista_departamentos,produto_buscado);
+        // printf("Buscando produto...\n");
+        // printf("digite o nome do produto que deseja buscar: ");
+        //scanf(" %[^\n]",produto_buscado);
+        // printf("aaaaaa\n");
+       busca_produto(lista_departamentos, "papel");
 
   
         break;
