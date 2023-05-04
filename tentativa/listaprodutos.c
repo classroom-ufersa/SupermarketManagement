@@ -16,7 +16,6 @@ ListaProdutos* cria_lista_produto(){
     printf("erro!!\n");
     exit(1);
   }
-  nova_lista_produto->info_produto = NULL;
   nova_lista_produto->info_produto = aloca_produto(); 
   return nova_lista_produto;
 }
@@ -27,6 +26,7 @@ ListaProdutos* ler_produto_txt(char* linha){
     printf("Erro!!!\n");
     exit(1);
   }
-  sscanf(linha," %[^|]| %[^|]| %[^|]| %[^|]| %f", nova_lista_produto->info_produto->tipo, nova_lista_produto->info_produto->fabricacao, nova_lista_produto->info_produto->validade, nova_lista_produto->info_produto->estoque, &nova_lista_produto->info_produto->preco);
+  sscanf(linha, " %[^|]|%[^|]|%[^|]|%[^|]|%[^|]|%f\n",nova_lista_produto->info_produto->nome_departamento ,nova_lista_produto->info_produto->tipo, nova_lista_produto->info_produto->fabricacao, nova_lista_produto->info_produto->validade, nova_lista_produto->info_produto->estoque, &nova_lista_produto->info_produto->preco);
+  printf("%s",linha);
   return nova_lista_produto;
 }

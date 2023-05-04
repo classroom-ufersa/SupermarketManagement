@@ -31,6 +31,8 @@ ListaDepartamento* cria_lista_departamento(){
 ListaDepartamento* ler_departamento_txt(char* linha){
   ListaDepartamento* departamento_auxiliar = cria_lista_departamento(); 
   sscanf(linha, " %[^|]| %[^\n]", departamento_auxiliar->info_departamento->nome, departamento_auxiliar->info_departamento->porte);
+  printf("%s\t%s\n",departamento_auxiliar->info_departamento->nome, departamento_auxiliar->info_departamento->porte);
+  // printf("%s",linha);
   return departamento_auxiliar;
 }
 
@@ -49,64 +51,20 @@ void lista_imprime_txt(ListaDepartamento* lista_departamentos){
   fclose(arquivo);
 }
 
-ListaDepartamento* ler_lista_departamentos(void){
-  ListaDepartamento* lista_departamento; 
-  ListaDepartamento* lista_departamento_auxiliar; 
-  ListaProdutos*  lista_produtos;//p
-  int quantidade_produtos = 0;
-  int quantidade_departamentos = 0;
-  int verifica_departamento = 0;
-  char linha[100];
-  FILE* arquivo = fopen("lista.txt", "rt");
-  
-  if (arquivo == NULL){
-    printf("erro!!");
-    exit(1);
-  }
-  
-
-  while(fgets(linha, 100, arquivo) != NULL){
-    if(strcmp(linha, "****\n") == 0){
-      verifica_departamento = 0;
-      lista_departamento_auxiliar->info_departamento->quantidade_produtos = quantidade_produtos;
-    }else if(verifica_departamento == 0){
-      
-      lista_departamento_auxiliar = ler_departamento_txt(linha);
-      verifica_departamento++;
-      quantidade_departamentos++;
-      quantidade_produtos = 0;
-      if(quantidade_departamentos == 1){
-        lista_departamento = lista_departamento_auxiliar;
-      }else{
-        lista_departamento_auxiliar->proxima_lista_departamento = lista_departamento;
-        lista_departamento = lista_departamento_auxiliar;
-      }
-    }else{
-      lista_produtos  = ler_produto_txt(linha);
-      quantidade_produtos++;
-      strcpy(lista_produtos->info_produto->nome_departamento,lista_departamento_auxiliar->info_departamento->nome);
-      if(quantidade_produtos == 1){
-        lista_departamento_auxiliar->info_departamento->lista_produtos = lista_produtos;
-      }else{
-        lista_produtos->proxima_lista_produto = lista_departamento_auxiliar->info_departamento->lista_produtos;
-        lista_departamento_auxiliar->info_departamento->lista_produtos = lista_produtos;
-      }
-    }
-  }
-  fclose(arquivo);
-  return lista_departamento;
-}
-
 void lista_departamento_imprime(ListaDepartamento* lista_departamento){
-  ListaDepartamento*  lista_departamento_auxiliar=lista_departamento; 
-  ListaProdutos*  lista_produtos;//p
-  while(lista_departamento_auxiliar!=NULL){
+  ListaDepartamento* lista_departamento_auxiliar = lista_departamento;
+  ListaProdutos* lista_produtos_auxiliar;
+  Produto* produto_auxiliar;
+  while (lista_departamento_auxiliar != NULL){
     printf("%s %s\n", lista_departamento_auxiliar->info_departamento->nome, lista_departamento_auxiliar->info_departamento->porte);
-    for(lista_produtos = lista_departamento_auxiliar->info_departamento->lista_produtos; lista_produtos !=NULL ;lista_produtos = lista_produtos->proxima_lista_produto){
-      printf(" %s %s %s %s %.2f\n", lista_produtos->info_produto->tipo,lista_produtos->info_produto->fabricacao,lista_produtos->info_produto->validade,lista_produtos->info_produto->estoque,lista_produtos->info_produto->preco);
+    lista_produtos_auxiliar = lista_departamento_auxiliar->info_departamento->lista_produtos;
+    while (lista_produtos_auxiliar != NULL){
+      produto_auxiliar = lista_produtos_auxiliar->info_produto;
+      printf("%s %s %s %s %f\n",produto_auxiliar->tipo, produto_auxiliar->validade,produto_auxiliar->fabricacao,produto_auxiliar->estoque, produto_auxiliar->preco);
+      lista_produtos_auxiliar = lista_produtos_auxiliar->proxima_lista_produto;
     }
     printf("-----------------------------------------------------------\n");
-    lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
+    lista_departamento_auxiliar = lista_departamento_auxiliar->proxima_lista_departamento;
   }
 }
 
@@ -137,7 +95,7 @@ void busca_produto(ListaDepartamento* lista_departamento, char* nome_produto){
 }
 
 void insere_novo_produto(ListaDepartamento* lista_departamento, char* tipo, char* validade, char* fabricacao, char* estoque, char* nome_departamento, float preco){
-  ListaDepartamento*  lista_departamento_auxiliar = lista_departamento;
+  ListaDepartamento* lista_departamento_auxiliar = lista_departamento;
   ListaProdutos* novo_produto = cria_lista_produto();
   if(novo_produto == NULL){
     printf("erro!!!");
@@ -160,4 +118,64 @@ void insere_novo_produto(ListaDepartamento* lista_departamento, char* tipo, char
     lista_departamento_auxiliar = lista_departamento_auxiliar->proxima_lista_departamento;
   }
   lista_departamento = lista_departamento_auxiliar;
+}
+
+ListaDepartamento* ler_lista_departamentos(void){
+  ListaDepartamento* lista_departamento; 
+  ListaDepartamento* lista_departamento_auxiliar; 
+  ListaProdutos* lista_produtos;
+  int verifica_departamento = 0;
+  char linha[100];
+
+  FILE* arquivo_departamento = fopen("/workspaces/SupermarketManagement/tentativa/output/arquivodepartamento.txt", "rt");
+  if (arquivo_departamento == NULL){
+    printf("erro : arquivo departamento!!");
+    exit(1);
+  }
+  
+  while(fgets(linha, 100, arquivo_departamento) != NULL){
+    lista_departamento_auxiliar =  ler_departamento_txt(linha);
+    if (verifica_departamento == 0){
+      lista_departamento = lista_departamento_auxiliar;
+      verifica_departamento++;
+    }else{
+      lista_departamento_auxiliar->proxima_lista_departamento = lista_departamento;
+      lista_departamento = lista_departamento_auxiliar;
+      verifica_departamento++;
+    }
+  }
+
+  fclose(arquivo_departamento);
+
+
+  FILE* arquivo_produto = fopen("/workspaces/SupermarketManagement/tentativa/output/arquivoproduto.txt", "rt");
+  if (arquivo_produto == NULL){
+    printf("erro: arquivo produto!!");
+    exit(1);
+  }
+
+   while(fgets(linha, 100, arquivo_produto) != NULL){
+    lista_produtos =  ler_produto_txt(linha);
+    printf("aaaaaa\n");
+    while (lista_departamento != NULL){
+      printf("aaaaaa\n");
+      if (strcmp(lista_departamento->info_departamento->nome, lista_produtos->info_produto->nome_departamento) == 0){
+        printf("aaaaaa\n");
+        if (lista_departamento->info_departamento->quantidade_produtos == 0){
+          
+          lista_departamento->info_departamento->lista_produtos = lista_produtos;
+          lista_departamento->info_departamento->quantidade_produtos++;
+          
+        }else{
+          lista_produtos->proxima_lista_produto = lista_departamento->info_departamento->lista_produtos;
+          lista_departamento->info_departamento->lista_produtos = lista_produtos;
+          lista_departamento->info_departamento->quantidade_produtos++;
+        }
+      }
+      lista_departamento = lista_departamento->proxima_lista_departamento;
+    }
+  }
+
+  fclose(arquivo_produto);
+  return lista_departamento;
 }

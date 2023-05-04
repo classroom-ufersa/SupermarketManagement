@@ -1,0 +1,4 @@
+limpeza|medio
+bebida|medio
+comida|pequeno
+açougue|grande

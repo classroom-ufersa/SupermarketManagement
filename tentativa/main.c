@@ -25,9 +25,9 @@ int main(void) {
         scanf(" %[^\n]",tipo);
         printf("digite o preço do produto: ");
         scanf("%f",&preco);
-        printf("digite a data de validade do produto(DD/MM/AAA): ");
+        printf("digite a data de validade do produto(DD/MM/AAAA): ");
         scanf(" %[^\n]",validade);
-        printf("digite a data de fabricação do produto(DD/MM/AAA): ");
+        printf("digite a data de fabricação do produto(DD/MM/AAAA): ");
         scanf(" %[^\n]",fabricacao);
         printf("digite a quantidade desse produto em estoque: ");
         scanf(" %[^\n]",estoque);
@@ -68,7 +68,7 @@ int main(void) {
         break;
       case 8:
         printf("\n|finalização do progama|\n");
-        
+        lista_imprime_txt(lista_departamentos);
         break;
       default:
         printf("\no numero digitado não está entre as opções\n\n");
