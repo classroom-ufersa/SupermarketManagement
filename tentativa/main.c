@@ -6,7 +6,7 @@ int main(void) {
   setlocale(LC_ALL,"Portuguese");
   int escolha = 0;
   char produto_buscado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50],estoque[50];
- 
+  char nome_produto_editar[50],nome_encontrar_departamento[50],nome_produto_removido[50];
   float preco;
   ListaDepartamento* lista_departamentos = ler_lista_departamentos();
  
@@ -38,6 +38,9 @@ int main(void) {
 
         break;
       case 2:
+        printf("removendo produto...\n");
+        printf("digite o nome do produto que deseja retirar: ");
+        scanf(" %[^\n]",nome_produto_removido);
   
         break;
       case 3:
@@ -49,7 +52,11 @@ int main(void) {
   
        break;
       case 4:
-  
+
+        printf("editando produto...\n");
+        printf("digite o nome do produto que deseja editar: ");
+        scanf(" %[^\n]",nome_produto_editar);
+
         break;
       case 5:
 
@@ -61,10 +68,13 @@ int main(void) {
   
         break;
       case 6:
-  
+        printf("digite o nome do departamento que deseja listar os produtos disponiveis: ");
+        scanf(" %[^\n]",nome_encontrar_departamento);
+        lista_produtos_departamento(lista_departamentos,nome_encontrar_departamento);
         break;
       case 7:
-  
+          produtos_por_departamento(lista_departamentos);
+
         break;
       case 8:
         printf("\n|finalização do progama|\n");
@@ -76,6 +86,6 @@ int main(void) {
     }
     
   }while(escolha!=8);
-
+  libera_memoria(lista_departamentos);
   return 0;
 }

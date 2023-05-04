@@ -52,10 +52,10 @@ void lista_imprime_txt(ListaDepartamento* lista_departamentos){
 }
 
 void lista_departamento_imprime(ListaDepartamento* lista_departamento){
-  ListaDepartamento* lista_departamento_auxiliar = lista_departamento;
+  ListaDepartamento*  lista_departamento_auxiliar=lista_departamento; 
   ListaProdutos* lista_produtos_auxiliar;
   Produto* produto_auxiliar;
-  while (lista_departamento_auxiliar != NULL){
+  while(lista_departamento_auxiliar!=NULL){
     printf("%s %s\n", lista_departamento_auxiliar->info_departamento->nome, lista_departamento_auxiliar->info_departamento->porte);
     lista_produtos_auxiliar = lista_departamento_auxiliar->info_departamento->lista_produtos;
     while (lista_produtos_auxiliar != NULL){
@@ -178,4 +178,52 @@ ListaDepartamento* ler_lista_departamentos(void){
 
   fclose(arquivo_produto);
   return lista_departamento;
+}
+void produtos_por_departamento(ListaDepartamento* lista_departamento){
+  ListaDepartamento* lista_departamento_auxiliar=lista_departamento;
+ 
+  while(lista_departamento_auxiliar->proxima_lista_departamento!=NULL){
+      printf("\ndepartamento: %s\nquantidade de produtos: %d\n\n",lista_departamento_auxiliar->info_departamento->nome,lista_departamento_auxiliar->info_departamento->quantidade_produtos);
+   
+    lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
+  }
+
+
+}
+void lista_produtos_departamento(ListaDepartamento* lista_departamento,char* nome_departamento){
+  ListaDepartamento* lista_departamento_auxiliar=lista_departamento;
+  ListaProdutos* lista_produto_auxiliar;
+  while(lista_departamento_auxiliar->proxima_lista_departamento!=NULL){
+    if(strcmp(lista_departamento_auxiliar->info_departamento->nome,nome_departamento)==0){
+    while(lista_produto_auxiliar->proxima_lista_produto!=NULL){
+      printf("produto: %s",lista_produto_auxiliar->info_produto->tipo);
+    }
+    lista_produto_auxiliar=lista_produto_auxiliar->proxima_lista_produto;
+    }
+      
+   
+    lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
+  }
+
+
+}
+void libera_memoria(ListaDepartamento* lista_departamento){
+  ListaDepartamento* lista_departamento_auxiliar=lista_departamento;
+  ListaProdutos* lista_produto_auxiliar=lista_departamento_auxiliar->info_departamento->lista_produtos;
+  Departamento* departamento_auxiliar;
+  Produto* produto_auxiliar;
+  while(lista_departamento_auxiliar!=NULL){
+      while(lista_produto_auxiliar!=NULL){
+        produto_auxiliar=lista_produto_auxiliar->info_produto;
+        lista_produto_auxiliar=lista_produto_auxiliar->proxima_lista_produto;
+        free(produto_auxiliar);
+      }
+    departamento_auxiliar=lista_departamento_auxiliar->info_departamento;
+    lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
+    free(departamento_auxiliar);
+  }
+
+  free(lista_produto_auxiliar);
+  free(lista_departamento_auxiliar);
+  free(lista_departamento);
 }
