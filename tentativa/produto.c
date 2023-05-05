@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include"produto.h"
 
 typedef struct produto Produto;
 
@@ -20,5 +21,3 @@ Produto* aloca_produto(void){
   }
   return novo_produto;
 }
-
-

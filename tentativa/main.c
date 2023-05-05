@@ -8,7 +8,7 @@ int main(void) {
   char produto_buscado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50],estoque[50];
   char nome_produto_editar[50],nome_encontrar_departamento[50],nome_produto_removido[50];
   float preco;
-  ListaDepartamento* lista_departamentos = ler_lista_departamentos();
+  ListaDepartamento* lista_departamentos = ler_txt();
  
 
   do{

@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
+#include "listadepartamento.h"
 #include "departamento.c"
 
 typedef struct listadepartamento ListaDepartamento;
@@ -39,7 +40,7 @@ ListaDepartamento* ler_departamento_txt(char* linha){
 void lista_imprime_txt(ListaDepartamento* lista_departamentos){
   ListaDepartamento* departamento_auxiliar = lista_departamentos;
   ListaProdutos* lista_produtos;
-  FILE* arquivo = fopen("lista_teste.txt","wt");
+  FILE* arquivo = fopen("/workspaces/SupermarketManagement/tentativa/output/lista_teste.txt","wt");
   while(departamento_auxiliar != NULL){
     fprintf(arquivo,"%s| %s\n",departamento_auxiliar->info_departamento->nome,departamento_auxiliar->info_departamento->porte);
     for(lista_produtos = departamento_auxiliar->info_departamento->lista_produtos; lista_produtos != NULL; lista_produtos = lista_produtos->proxima_lista_produto){
@@ -128,6 +129,7 @@ ListaDepartamento* ler_lista_departamentos(void){
   char linha[100];
 
   FILE* arquivo_departamento = fopen("/workspaces/SupermarketManagement/tentativa/output/arquivodepartamento.txt", "rt");
+  
   if (arquivo_departamento == NULL){
     printf("erro : arquivo departamento!!");
     exit(1);
@@ -144,41 +146,11 @@ ListaDepartamento* ler_lista_departamentos(void){
       verifica_departamento++;
     }
   }
-
   fclose(arquivo_departamento);
-
-
-  FILE* arquivo_produto = fopen("/workspaces/SupermarketManagement/tentativa/output/arquivoproduto.txt", "rt");
-  if (arquivo_produto == NULL){
-    printf("erro: arquivo produto!!");
-    exit(1);
-  }
-
-   while(fgets(linha, 100, arquivo_produto) != NULL){
-    lista_produtos =  ler_produto_txt(linha);
-    printf("aaaaaa\n");
-    while (lista_departamento != NULL){
-      printf("aaaaaa\n");
-      if (strcmp(lista_departamento->info_departamento->nome, lista_produtos->info_produto->nome_departamento) == 0){
-        printf("aaaaaa\n");
-        if (lista_departamento->info_departamento->quantidade_produtos == 0){
-          
-          lista_departamento->info_departamento->lista_produtos = lista_produtos;
-          lista_departamento->info_departamento->quantidade_produtos++;
-          
-        }else{
-          lista_produtos->proxima_lista_produto = lista_departamento->info_departamento->lista_produtos;
-          lista_departamento->info_departamento->lista_produtos = lista_produtos;
-          lista_departamento->info_departamento->quantidade_produtos++;
-        }
-      }
-      lista_departamento = lista_departamento->proxima_lista_departamento;
-    }
-  }
-
-  fclose(arquivo_produto);
   return lista_departamento;
 }
+
+
 void produtos_por_departamento(ListaDepartamento* lista_departamento){
   ListaDepartamento* lista_departamento_auxiliar=lista_departamento;
  
@@ -187,7 +159,6 @@ void produtos_por_departamento(ListaDepartamento* lista_departamento){
    
     lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
   }
-
 
 }
 void lista_produtos_departamento(ListaDepartamento* lista_departamento,char* nome_departamento){
@@ -200,12 +171,8 @@ void lista_produtos_departamento(ListaDepartamento* lista_departamento,char* nom
     }
     lista_produto_auxiliar=lista_produto_auxiliar->proxima_lista_produto;
     }
-      
-   
     lista_departamento_auxiliar=lista_departamento_auxiliar->proxima_lista_departamento;
   }
-
-
 }
 void libera_memoria(ListaDepartamento* lista_departamento){
   ListaDepartamento* lista_departamento_auxiliar=lista_departamento;
@@ -226,4 +193,44 @@ void libera_memoria(ListaDepartamento* lista_departamento){
   free(lista_produto_auxiliar);
   free(lista_departamento_auxiliar);
   free(lista_departamento);
+}
+
+ListaDepartamento* ler_txt(){
+  ListaDepartamento* lista_departamento = ler_lista_departamentos();
+  lista_departamento = ler_lista_produto(lista_departamento);
+  return lista_departamento;
+}
+
+ListaProdutos* ler_lista_produto(ListaDepartamento* lista_departamento){
+  ListaDepartamento* lista_departamento_auxiliar = lista_departamento;
+  ListaProdutos* lista_produtos;
+  char linha[100];
+  
+  FILE* arquivo_produto = fopen("/workspaces/SupermarketManagement/tentativa/output/arquivoproduto.txt", "rt");
+  if (arquivo_produto == NULL){
+    printf("erro: arquivo produto!!");
+    exit(1);
+  }
+  lista_departamento_auxiliar = lista_departamento;
+   while(fgets(linha, 100, arquivo_produto) != NULL){
+    lista_produtos =  ler_produto_txt(linha);
+
+    while (lista_departamento_auxiliar != NULL){
+
+      if (strcmp(lista_departamento_auxiliar->info_departamento->nome, lista_produtos->info_produto->nome_departamento) == 0){
+        if (lista_departamento_auxiliar->info_departamento->quantidade_produtos == 0){
+
+          lista_departamento_auxiliar->info_departamento->lista_produtos = lista_produtos;
+          lista_departamento_auxiliar->info_departamento->quantidade_produtos++;
+          
+        }else{
+          lista_produtos->proxima_lista_produto = lista_departamento_auxiliar->info_departamento->lista_produtos;
+          lista_departamento_auxiliar->info_departamento->lista_produtos = lista_produtos;
+          lista_departamento_auxiliar->info_departamento->quantidade_produtos++;
+        }
+      }
+      lista_departamento_auxiliar = lista_departamento_auxiliar->proxima_lista_departamento;
+    }
+  }
+  fclose(arquivo_produto);
 }

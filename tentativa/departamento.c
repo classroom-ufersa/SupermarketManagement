@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include"departamento.h"
 #include "listaprodutos.c"
 
 typedef struct departamento Departamento;
