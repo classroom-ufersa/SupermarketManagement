@@ -14,6 +14,12 @@ struct departamento{
    Departamento* departamento_anterior;
 };
 
+void imprime_menu(){
+  printf("\n\t\tMenu\n");
+  printf("1 - Adicionar produto;\n2 - Remover produto;\n3 - Listar produtos cadastrados;\n4 - Editar produto;\n5 - Buscar produto;\n6 - Consultar produtos disponíveis em um dado departamento;\n7 - Consultar quantitativo de produtos por departamento;\n8 - Sair.\n");
+}
+
+
 Departamento* ler_departamento_txt(void){ 
   Departamento* departamento;  
   Departamento* departamento_auxiliar;   
@@ -80,7 +86,7 @@ void lista_departamento_imprime(Departamento* departamento){
     printf("%s %s\n", departamento_auxiliar->nome, departamento_auxiliar->porte);
     lista_produtos = departamento_auxiliar->lista_produtos;
     while (lista_produtos != NULL){
-      printf("%s %s %s %s %f\n",lista_produtos->tipo, lista_produtos->validade,lista_produtos->fabricacao,lista_produtos->estoque, lista_produtos->preco);
+      printf("%s %s %s %s %.2f\n",lista_produtos->tipo, lista_produtos->validade,lista_produtos->fabricacao,lista_produtos->estoque, lista_produtos->preco);
       lista_produtos = lista_produtos->proximo_produto;
     }
     printf("-----------------------------------------------------------\n");
@@ -113,6 +119,7 @@ Departamento* ler_produto_txt(Departamento* departamento){
           
         }else{
           produto->proximo_produto = departamento_auxiliar->lista_produtos;
+          departamento_auxiliar->lista_produtos->produto_anterior=produto;
           departamento_auxiliar->lista_produtos = produto;
           departamento_auxiliar->quantidade_produtos++;
         }
@@ -124,4 +131,89 @@ Departamento* ler_produto_txt(Departamento* departamento){
   fclose(arquivo_produto);
   return (departamento);
   
+}
+
+
+void insere_novo_produto(Departamento* departamento, char* tipo, char* validade, char* fabricacao, char* estoque, char* nome_departamento, float preco){
+  Departamento* departamento_auxiliar = departamento;
+  Produto* novo_produto = aloca_produto();
+  if(novo_produto == NULL){
+    printf("erro!!!");
+    exit(1);
+  }
+
+  strcpy(novo_produto->tipo,tipo);
+  strcpy(novo_produto->fabricacao,fabricacao);
+  strcpy(novo_produto->nome_departamento,nome_departamento);
+  strcpy(novo_produto->validade,validade);
+  strcpy(novo_produto->estoque, estoque);
+  novo_produto->preco = preco;
+
+  while(departamento_auxiliar != NULL){
+    
+    if(strcmp(departamento_auxiliar->nome,nome_departamento) == 0){
+      novo_produto->proximo_produto = departamento_auxiliar->lista_produtos;
+      departamento_auxiliar->lista_produtos->produto_anterior = novo_produto;
+      departamento_auxiliar->lista_produtos = novo_produto;
+      departamento_auxiliar->quantidade_produtos++;
+    }
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+  departamento = departamento_auxiliar;
+}
+
+
+void lista_imprime_txt(Departamento* departamentos){
+  Departamento* departamento_auxiliar = departamentos;
+  Produto* produtos;
+  FILE* arquivo = fopen("arquivo_teste.txt","wt");
+  while(departamento_auxiliar != NULL){
+    fprintf(arquivo,"%s| %s\n",departamento_auxiliar->nome,departamento_auxiliar->porte);
+    for(produtos = departamento_auxiliar->lista_produtos; produtos != NULL; produtos = produtos->proximo_produto){
+      fprintf(arquivo," %s| %s| %s| %s|%.2f\n", produtos->tipo,produtos->fabricacao, produtos->validade, produtos->estoque, produtos->preco);
+    }
+    fprintf(arquivo,"****\n");
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+  fclose(arquivo);
+}
+
+
+
+void busca_produto(Departamento* departamento, char* nome_produto){
+  int achou_produto=0;
+  Departamento* departamento_auxiliar = departamento;
+  Produto* produto_auxiliar; 
+   
+   while(departamento_auxiliar != NULL){
+    produto_auxiliar = departamento_auxiliar->lista_produtos;
+    while (produto_auxiliar != NULL){
+      
+   if(strcmp(produto_auxiliar->tipo, nome_produto) == 0){
+      printf("nome do departamento que se encontra o produto: %s\n",produto_auxiliar->nome_departamento);
+      printf("preço do produto: %.2f\n",produto_auxiliar->preco);
+      printf("data de fabricação do produto: %s\n",produto_auxiliar->fabricacao);
+      printf("data de validade do produto: %s\n",produto_auxiliar->validade);
+      printf("quantidade disponivel em estoque: %s\n\n",produto_auxiliar->estoque);
+      achou_produto++;
+    }
+      produto_auxiliar = produto_auxiliar->proximo_produto;
+    }
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+   if(achou_produto == 0){
+      printf("produto não encontrado");
+    }
+}
+
+
+void produtos_por_departamento(Departamento* departamento){
+  Departamento* departamento_auxiliar = departamento;
+ 
+  while(departamento_auxiliar!=NULL){
+      printf("\ndepartamento: %s\nquantidade de produtos: %d\n\n",departamento_auxiliar->nome,departamento_auxiliar->quantidade_produtos);
+   
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+
 }
