@@ -5,10 +5,11 @@
 int main(void) {
   setlocale(LC_ALL,"Portuguese");
   int escolha = 0, estoque;
-  char produto_buscado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50];
+  char produto_procurado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50];
   char nome_produto_editar[50],nome_encontrar_departamento[50],nome_produto_removido[50];
   float preco;
   Departamento* departamentos = ler_txt();
+  Produto* produto_buscado;
  
 
   do{
@@ -61,9 +62,18 @@ int main(void) {
 
         printf("Buscando produto...\n");
         printf("digite o nome do produto que deseja buscar: ");
-        scanf(" %[^\n]",produto_buscado);
-        verifica_digitou_frase(produto_buscado);
-        busca_produto(departamentos,produto_buscado);
+        scanf(" %[^\n]",produto_procurado);
+        // busca_produto(departamentos,produto_buscado);
+        produto_buscado = busca_produto(departamentos, produto_procurado);
+        if(produto_buscado == NULL){
+          printf("produto não encontrado");
+        }else{
+          printf("nome do departamento que se encontra o produto: %s\n",produto_buscado->nome_departamento);
+          printf("preço do produto: %.2f\n",produto_buscado->preco);
+          printf("data de fabricação do produto: %s\n",produto_buscado->fabricacao);
+          printf("data de validade do produto: %s\n",produto_buscado->validade);
+          printf("quantidade disponivel em estoque: %d\n\n",produto_buscado->estoque);
+        }
   
         break;
       case 6:
@@ -91,11 +101,11 @@ int main(void) {
     }
     
   }while(escolha!=8);
-//   libera_memoria(departamentos);
+
+  libera_memoria(&departamentos);
+  lista_departamento_imprime(departamentos);
   return 0;
 }
-
-
 
 
 // #include<stdio.h>

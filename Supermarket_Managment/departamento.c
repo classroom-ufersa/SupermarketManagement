@@ -69,8 +69,7 @@ Departamento* aloca_departamento(void){
    novo_departamento->lista_produtos=NULL;
    novo_departamento->departamento_anterior=NULL;
    novo_departamento->proximo_departamento=NULL;
-   return novo_departamento;
-    
+   return novo_departamento; 
 }
 
 
@@ -129,13 +128,11 @@ Departamento* ler_produto_txt(Departamento* departamento){
         if (departamento_auxiliar->quantidade_produtos == 0){  
           departamento_auxiliar->lista_produtos = produto;
           departamento_auxiliar->quantidade_produtos++;
-          printf("aaaaa\n");
         }else{
           produto->proximo_produto = departamento_auxiliar->lista_produtos;
           departamento_auxiliar->lista_produtos->produto_anterior = produto;
           departamento_auxiliar->lista_produtos = produto;
           departamento_auxiliar->quantidade_produtos++;
-          printf("aaaaa\n");
         }
       }
       departamento_auxiliar = departamento_auxiliar->proximo_departamento;
@@ -192,9 +189,7 @@ void lista_imprime_txt(Departamento* departamentos){
 }
 
 
-
-void busca_produto(Departamento* departamento, char* nome_produto){
-  int achou_produto=0;
+Departamento* busca_produto(Departamento* departamento, char* nome_produto){
   Departamento* departamento_auxiliar = departamento;
   Produto* produto_auxiliar; 
    
@@ -203,21 +198,38 @@ void busca_produto(Departamento* departamento, char* nome_produto){
     while (produto_auxiliar != NULL){
       
    if(strcmp(produto_auxiliar->tipo, nome_produto) == 0){
-      printf("\n\nnome do departamento que se encontra o produto: %s\n",produto_auxiliar->nome_departamento);
-      printf("preço do produto: %.2f\n",produto_auxiliar->preco);
-      printf("data de fabricação do produto: %s\n",produto_auxiliar->fabricacao);
-      printf("data de validade do produto: %s\n",produto_auxiliar->validade);
-      printf("quantidade disponivel em estoque: %d\n\n",produto_auxiliar->estoque);
-      achou_produto++;
+      return produto_auxiliar;
     }
       produto_auxiliar = produto_auxiliar->proximo_produto;
     }
     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
   }
-   if(achou_produto == 0){
-      printf("produto não encontrado");
-    }
+  return NULL;
 }
+
+// // void* editar_produto(Departamento* departamento, char* nome_produto){
+// //   Departamento* departamento_auxiliar;
+// //   Produto* produto = busca_produto(departamento,nome_produto);
+  
+// //     if(produto == NULL){
+// //       printf("produto não encontrado");
+// //     }else{
+// //       Departamento* departamento_auxiliar = busca_depatamento(departamento, produto->nome_departamento);
+// //    }
+    
+  
+// //   if(departamento == NULL){
+    
+// //   }
+// // }
+// // rn produto_auxiliar;
+// //     }
+// //       produto_auxiliar = produto_auxiliar->proximo_produto;
+// //     }
+// //     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+// //   }
+// //   return NULL;
+// // }
 
 
 void produtos_por_departamento(Departamento* departamento){
@@ -330,3 +342,127 @@ void remove_produto(Departamento* departamento, char* nome_produto){
 //   texto_digitado[i] = '\0';
 //   return texto_digitado;
 // }
+
+void libera_memoria(Departamento* departamento){
+  Departamento* departamento_auxiliar = departamento;
+  Departamento* departamento_free;
+  Produto* produto;  
+  Produto* produto_auxiliar;
+
+  while(departamento_auxiliar != NULL){
+      produto = departamento_auxiliar->lista_produtos;
+      while(produto != NULL){
+        produto_auxiliar = produto;
+        produto = produto->proximo_produto;
+        free(produto_auxiliar);
+      }
+    departamento_free = departamento_auxiliar;
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+    free(departamento_free);
+  }
+
+  // do{
+  //   departamento_auxiliar = departamento;
+  //   departamento =  departamento->proximo_departamento;
+  //   free(departamento_auxiliar);
+  // } while(departamento!= NULL);
+
+  
+  // while(departamento_free != NULL){
+  //   departamento_auxiliar = departamento_free;
+  //   departamento_free = departamento_free->proximo_departamento;
+  //   free(departamento_auxiliar);
+  //   departamento_free = departamento_free->proximo_departamento;
+  // }
+  // free(departamento);
+  printf("memoria liberada\n");
+}
+
+
+// void* editar_produto(Departamento* departamento, char* nome_produto){
+//   Departamento* departamento_auxiliar = departamento;
+//   Produto* produto_free;
+//   if(strcmp(departamento_auxiliar->lista_produtos->tipo,nome_produto) == 0){
+//     produto_free = departamento_auxiliar->lista_produtos;
+//     departamento_auxiliar->lista_produtos->produto_anterior = produto_free->produto_anterior;
+//     departamento_auxiliar->lista_produtos = produto_free->proximo_produto;
+//   }else{
+//     produto_free = departamento_auxiliar->lista_produtos;
+//     while(produto_free != NULL){
+//       if(strcmp(produto_free->tipo, nome_produto) == 0){
+
+//       }
+//       produto_free->proximo_produto;
+//     }
+    
+//   }
+//   free(produto_free);
+// }
+
+// void remove_produto(){
+
+// }
+
+void imprime_menu_edita(){
+  printf("\n\t\tMenu\n");
+  printf("oq deseja edita\n");
+  printf("1 - nome;\n2 - validade;\n3 - fabricacao;\n4 - nome_departamento;\n5 - estoque;\n6 -preço;\n7 - sair\n");
+}
+
+void* editar_produto(Departamento* departamento, char* nome_produto){
+  Produto* produto_editar = busca_produto(departamento,nome_produto);
+  char tipo[50],validade[50],fabricacao[50],nome_departamento[50];
+  int escolha = 0,estoque;
+  float preco;
+
+  printf("%s %s %s %d %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
+
+  do{
+    imprime_menu_edita();
+    switch (escolha){
+      case 1:
+        printf("digite o novo nome do produto\n");
+        scanf(" %[^\n]", nome_produto);
+
+        strcpy(produto_editar->tipo,minuscula(tipo));
+        break;
+      case 2:
+        printf("digite o novo nome do produto\n");
+        scanf(" %[^\n]", validade);
+        strcpy(produto_editar->validade,minuscula(validade));
+        break;
+      case 3:
+        printf("digite o novo nome do produto\n");
+        scanf(" %[^\n]", fabricacao);
+        strcpy(produto_editar->fabricacao,minuscula(fabricacao));
+        break;
+      case 4:
+        printf("digite o novo nome do produto\n");
+        scanf(" %[^\n]", fabricacao);
+        strcpy(produto_editar->nome_departamento,minuscula(nome_departamento));
+        break;
+      case 5:
+
+        break;
+      case 6:
+
+        break;
+      case 7:
+      
+        break;
+      default:
+        break;
+    }
+  } while (escolha != 7);
+}
+
+char* minuscula(char* nome){
+    int i = 0;
+    char aux[50];
+    strcpy(aux,nome);
+    while(aux[i] != '\0'){
+      aux[i] = tolower(aux[i]);
+      i++;
+    }
+  return aux;
+}
