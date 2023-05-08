@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "departamento.h"
 #include "produto.c"
+
 
 // typedef struct departamento Departamento;
 
@@ -82,15 +84,26 @@ Departamento* ler_txt(){
 void lista_departamento_imprime(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento; 
   Produto* lista_produtos;
+
   while(departamento_auxiliar != NULL){
-    printf("%s %s\n", departamento_auxiliar->nome, departamento_auxiliar->porte);
+    if(departamento_auxiliar->quantidade_produtos == 0){
+      printf("\ndepartamento: %s, nenhum produto nesse departamento;\n",departamento_auxiliar->nome);
+    }
+    else{
+    printf("\n\nnome do departamento: %s, quantidade de produtos nesse departamento: %d\n", departamento_auxiliar->nome,departamento_auxiliar->quantidade_produtos);
     lista_produtos = departamento_auxiliar->lista_produtos;
+
     while (lista_produtos != NULL){
-      printf("%s %s %s %d %.2f\n",lista_produtos->tipo, lista_produtos->validade,lista_produtos->fabricacao,lista_produtos->estoque, lista_produtos->preco);
+      if(lista_produtos->estoque == 0){
+        printf("\nnome do produto: %s\nvalidade do produto: %s\ndata de fabricação do produto: %s\neste produto não está disponivel em estoque\npreço do produto: %.2f\n",lista_produtos->tipo, lista_produtos->validade,lista_produtos->fabricacao, lista_produtos->preco);
+      }else{
+      printf("\nnome do produto: %s\nvalidade do produto: %s\ndata de fabricação do produto: %s\nquantidade em estoque: %d\npreço do produto: %.2f\n",lista_produtos->tipo, lista_produtos->validade,lista_produtos->fabricacao,lista_produtos->estoque, lista_produtos->preco);
+      }
       lista_produtos = lista_produtos->proximo_produto;
     }
-    printf("-----------------------------------------------------------\n");
-    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+
+  }
+  departamento_auxiliar = departamento_auxiliar->proximo_departamento;
   }
 }
 
@@ -190,7 +203,7 @@ void busca_produto(Departamento* departamento, char* nome_produto){
     while (produto_auxiliar != NULL){
       
    if(strcmp(produto_auxiliar->tipo, nome_produto) == 0){
-      printf("nome do departamento que se encontra o produto: %s\n",produto_auxiliar->nome_departamento);
+      printf("\n\nnome do departamento que se encontra o produto: %s\n",produto_auxiliar->nome_departamento);
       printf("preço do produto: %.2f\n",produto_auxiliar->preco);
       printf("data de fabricação do produto: %s\n",produto_auxiliar->fabricacao);
       printf("data de validade do produto: %s\n",produto_auxiliar->validade);
@@ -217,3 +230,103 @@ void produtos_por_departamento(Departamento* departamento){
   }
 
 }
+
+int verifica_departamento_vazio(Departamento* departamento){
+    return(departamento->quantidade_produtos == 0);
+}
+
+void verifica_produtos_estoque(Departamento* departamento, char*nome_departamento){
+  Departamento* departamento_auxiliar=departamento;
+  Produto* produto_auxiliar;
+  while(departamento_auxiliar != NULL){
+
+    if(strcmp(departamento_auxiliar->nome,nome_departamento) == 0){
+      produto_auxiliar=departamento_auxiliar->lista_produtos;
+      
+      if(verifica_departamento_vazio(departamento_auxiliar) == 0){
+        printf("\nnenhum produto cadastrado nesse departamento\n");
+      }
+      
+      while(produto_auxiliar != NULL){
+
+        if(produto_auxiliar->estoque != 0){
+          printf("\n\nnome do produto: %s, quantidade disponivel: %d\n",produto_auxiliar->tipo,produto_auxiliar->estoque);
+        }else{
+          printf("\n\nnão há %s disponivel no estoque\n",produto_auxiliar->tipo);
+        }
+        produto_auxiliar=produto_auxiliar->proximo_produto;
+
+      }
+
+
+    }
+  departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+
+
+}
+
+
+void remove_produto(Departamento* departamento, char* nome_produto){
+  Departamento* departamento_auxiliar = departamento;
+  Produto* produto_auxiliar;
+  Produto* produto_free;
+
+  while(departamento_auxiliar != NULL){
+    //  if(verifica_departamento_vazio(departamento) == 0){
+
+    //     printf("\n\nnão há produtos neste departamento para remover\n");
+
+    //   }
+    produto_auxiliar = departamento_auxiliar->lista_produtos;
+    
+    if(strcmp(produto_auxiliar->tipo,nome_produto) == 0){
+      if(produto_auxiliar->produto_anterior == NULL){
+
+        produto_free = produto_auxiliar;
+        produto_auxiliar->produto_anterior=produto_auxiliar;
+        produto_auxiliar->proximo_produto->produto_anterior = produto_auxiliar->proximo_produto; 
+        // free(produto_free);
+
+      }else if(produto_auxiliar->proximo_produto == NULL){
+
+        produto_free = produto_auxiliar;
+        produto_auxiliar->proximo_produto = produto_auxiliar;
+        produto_auxiliar->produto_anterior->proximo_produto = produto_auxiliar->produto_anterior;
+        // free(produto_free);
+
+      }else{
+
+      produto_free=produto_auxiliar;
+      produto_auxiliar->proximo_produto->produto_anterior = produto_auxiliar->produto_anterior;
+      produto_auxiliar->produto_anterior->proximo_produto = produto_auxiliar->proximo_produto;
+      printf("\nproduto removido com sucesso\n");
+
+      }
+      free(produto_free);
+    }
+
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+
+}
+
+
+// char* verifica_digitou_frase(char* texto_digitado){
+//   char c;
+//   int i=0;
+//   do{
+//     c=getchar();
+//     if(isalpha(c) != 0 || c == 32){
+//       texto_digitado[i] = c;
+//       i++;
+//       printf("%c",c);
+//     }else if(c == 8 && i){
+//       texto_digitado[i] = '\0';
+//       i--;
+//       printf("\b \b");
+//     }
+//   }while(c != 13);
+//   texto_digitado[i] = '\0';
+//   return texto_digitado;
+// }

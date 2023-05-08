@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include<locale.h>
+#include <locale.h>
 #include"departamento.c"
 
 int main(void) {
@@ -41,14 +41,13 @@ int main(void) {
         printf("removendo produto...\n");
         printf("digite o nome do produto que deseja retirar: ");
         scanf(" %[^\n]",nome_produto_removido);
+        remove_produto(departamentos,nome_produto_removido);
   
         break;
       case 3:
 
         printf("\nListando os departamentos:\n\n");
-        //lista_imprime_txt(lista_departamentos);
         lista_departamento_imprime(departamentos );
-        
   
        break;
       case 4:
@@ -63,25 +62,31 @@ int main(void) {
         printf("Buscando produto...\n");
         printf("digite o nome do produto que deseja buscar: ");
         scanf(" %[^\n]",produto_buscado);
+        verifica_digitou_frase(produto_buscado);
         busca_produto(departamentos,produto_buscado);
-
   
         break;
       case 6:
-        printf("digite o nome do departamento que deseja listar os produtos disponiveis: ");
+
+        printf("digite o nome do departamento que deseja verificar a quantidade de produtos disponiveis: ");
         scanf(" %[^\n]",nome_encontrar_departamento);
-       // lista_produtos_departamento(departamentos,nome_encontrar_departamento);
+        verifica_produtos_estoque(departamentos,nome_encontrar_departamento);
+
         break;
       case 7:
           produtos_por_departamento(departamentos);
 
         break;
       case 8:
+
         printf("\n|finalização do progama|\n");
         lista_imprime_txt(departamentos);
+
         break;
       default:
+
         printf("\no numero digitado não está entre as opções\n\n");
+
         break;
     }
     
