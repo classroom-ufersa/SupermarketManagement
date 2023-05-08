@@ -4,8 +4,8 @@
 
 int main(void) {
   setlocale(LC_ALL,"Portuguese");
-  int escolha = 0;
-  char produto_buscado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50],estoque[50];
+  int escolha = 0, estoque;
+  char produto_buscado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50];
   char nome_produto_editar[50],nome_encontrar_departamento[50],nome_produto_removido[50];
   float preco;
   Departamento* departamentos = ler_txt();
@@ -30,7 +30,7 @@ int main(void) {
         printf("digite a data de fabricação do produto(DD/MM/AAAA): ");
         scanf(" %[^\n]",fabricacao);
         printf("digite a quantidade desse produto em estoque: ");
-        scanf(" %[^\n]",estoque);
+        scanf("%d",&estoque);
         printf("digite o nome do departamento em que esse produto vai estar: ");
         scanf(" %[^\n]",nome_departamento);
         insere_novo_produto(departamentos,tipo,validade,fabricacao,estoque,nome_departamento,preco);
