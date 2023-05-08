@@ -39,6 +39,7 @@ int main(void) {
 
         break;
       case 2:
+      
         printf("removendo produto...\n");
         printf("digite o nome do produto que deseja retirar: ");
         scanf(" %[^\n]",nome_produto_removido);
@@ -56,7 +57,7 @@ int main(void) {
         printf("editando produto...\n");
         printf("digite o nome do produto que deseja editar: ");
         scanf(" %[^\n]",nome_produto_editar);
-
+        editar_produto(departamentos, nome_produto_editar);
         break;
       case 5:
 
@@ -102,7 +103,7 @@ int main(void) {
     
   }while(escolha!=8);
 
-  libera_memoria(&departamentos);
+  libera_memoria(departamentos);
   lista_departamento_imprime(departamentos);
   return 0;
 }
