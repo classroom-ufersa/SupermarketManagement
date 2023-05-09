@@ -256,6 +256,7 @@ void verifica_produtos_estoque(Departamento* departamento, char*nome_departament
 
 
 void remove_produto(Departamento* departamento, char* nome_produto){
+  int achou_produto=0;
   Departamento* departamento_auxiliar = departamento;
   Produto* produto_auxiliar;
   Produto* produto_free;
@@ -271,17 +272,20 @@ void remove_produto(Departamento* departamento, char* nome_produto){
       if(strcmp(produto_auxiliar->tipo,nome_produto) == 0){
         if(produto_auxiliar->produto_anterior == NULL){
 
+          achou_produto++;
           produto_free = produto_auxiliar;
           produto_auxiliar = produto_auxiliar->proximo_produto;
           produto_auxiliar->produto_anterior = NULL;
 
         }else if(produto_auxiliar->proximo_produto == NULL){
 
+          achou_produto++;
           produto_free = produto_auxiliar;
           produto_auxiliar->produto_anterior->proximo_produto = NULL;
 
         }else{
 
+        achou_produto++;
         produto_free = produto_auxiliar;
         produto_auxiliar->proximo_produto->produto_anterior = produto_auxiliar->produto_anterior;
         produto_auxiliar->produto_anterior->proximo_produto = produto_auxiliar->proximo_produto;
@@ -294,6 +298,9 @@ void remove_produto(Departamento* departamento, char* nome_produto){
       produto_auxiliar = produto_auxiliar->proximo_produto;
     }
     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+  if(achou_produto == 0){
+    printf("\n\nproduto não encontrado");
   }
 }
 
@@ -338,80 +345,11 @@ void libera_memoria(Departamento* departamento){
 
 
 void imprime_menu_edita(){
-  printf("\n\tMenu de edição de produto\n");
-  printf("oq deseja edita\n");
-  printf("1 - nome;\n2 - validade;\n3 - fabricacao;\n4 - nome_departamento;\n5 - estoque;\n6 -preço;\n7 - sair\n");
+  printf("\n\tMenu de edição de produto:\n");
+  printf("o que deseja editar?\n");
+  printf("1 - nome;\n2 - validade;\n3 - fabricacao;\n4 - nome do departamento;\n5 - quantidade em estoque;\n6 - preço;\n7 - sair\n");
 }
 
-
-void* editar_produto(Departamento* departamento, char* nome_produto){
-  Produto* produto_editar = busca_produto(departamento,nome_produto);
-  char tipo[50],validade[50],fabricacao[50],nome_departamento[50];
-  int escolha = 0, opcao;
-
-  printf("%s %s %s %d %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
-
-  do{
-    imprime_menu_edita();
-    printf("digite a opção que deseja: ");
-    scanf("%d",&escolha);
-    switch (escolha){
-      case 1:
-        printf("digite nome do produto\n");
-        scanf(" %[^\n]", nome_produto);
-        minuscula(tipo);
-        strcpy(produto_editar->tipo,tipo);
-        break;
-      case 2:
-        printf("digite a data de validade\n");
-        scanf(" %[^\n]", validade);
-        minuscula(validade);
-        strcpy(produto_editar->validade,validade);
-        break;
-      case 3:
-        printf("digite a data de fabricação\n");
-        scanf(" %[^\n]", fabricacao);
-        minuscula(fabricacao);
-        strcpy(produto_editar->fabricacao,fabricacao);
-        break;
-      case 4:
-        printf("digite o nome do departamento\n");
-        scanf(" %[^\n]", nome_departamento);
-        minuscula(nome_departamento);
-        strcpy(produto_editar->nome_departamento,nome_departamento);
-        break;
-      case 5:
-        printf("digite a quantidade que tem no estoque\n");
-        scanf("%d",&produto_editar->estoque);
-        break;
-      case 6:
-        printf("digite o novo valor do produto\n");
-        scanf("%f",&produto_editar->preco);
-        break;
-      case 7:
-        printf("item editado com sucesso\n");
-        printf("%s %s %s %d %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
-        break;
-      default:
-        printf("opção invalida\n");
-        break;
-    }
-
-    do{
-    printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n");
-    scanf("%d",&opcao);
-    if(opcao == 0){
-      printf("item editado com sucesso\n");
-      printf("%s %s %s %d %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
-      escolha = 7;
-      opcao = 1;
-    }else if(opcao != 0 || opcao != 0){
-      printf("opcão invalida\n");
-    }
-    }while(opcao != 1);
-
-  }while(escolha != 7);
-}
 
 void minuscula(char* nome){
     int i = 0;
@@ -423,3 +361,74 @@ void minuscula(char* nome){
     }
     strcpy(nome,aux);
 }
+
+
+void* editar_produto(Departamento* departamento, char* nome_produto){
+  Produto* produto_editar = busca_produto(departamento,nome_produto);
+  char tipo[50],validade[50],fabricacao[50],nome_departamento[50];
+  int escolha = 0, opcao;
+
+  printf("nome do produto:%s\ndata de validade do produto:%s\ndata de fabricação do produto:%s\nquantidade em estoque desse produto:%d\npreço do produto:%.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
+
+  do{
+    imprime_menu_edita();
+    printf("digite a opção que deseja: ");
+    scanf("%d",&escolha);
+    switch (escolha){
+      case 1:
+        printf("digite novo nome do produto: \n");
+        scanf(" %[^\n]", tipo);
+        minuscula(tipo);
+        strcpy(produto_editar->tipo,tipo);
+        break;
+      case 2:
+        printf("digite a nova data de validade: \n");
+        scanf(" %[^\n]", validade);
+        minuscula(validade);
+        strcpy(produto_editar->validade,validade);
+        break;
+      case 3:
+        printf("digite a nova data de fabricação: \n");
+        scanf(" %[^\n]", fabricacao);
+        minuscula(fabricacao);
+        strcpy(produto_editar->fabricacao,fabricacao);
+        break;
+      case 4:
+        printf("digite o novo nome do departamento: \n");
+        scanf(" %[^\n]", nome_departamento);
+        minuscula(nome_departamento);
+        strcpy(produto_editar->nome_departamento,nome_departamento);
+        break;
+      case 5:
+        printf("digite a nova quantidade desse produto no estoque: \n");
+        scanf("%d",&produto_editar->estoque);
+        break;
+      case 6:
+        printf("digite o novo preço do produto: \n");
+        scanf("%f",&produto_editar->preco);
+        break;
+      case 7:
+        printf("item editado com sucesso\n");
+        printf("%s %s %s %d %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
+        break;
+      default:
+        printf("opção inválida\n");
+        break;
+    }
+
+    do{
+    printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n");
+    scanf("%d",&opcao);
+    if(opcao == 2){
+      printf("item editado com sucesso\n");
+      printf("nome do produto: %s\ndata de validade do produto: %s\ndata de fabricação do produto: %s\nquantidade em estoque desse produto: %d\npreço do produto: %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
+      escolha = 7;
+      opcao = 1;
+    }else if(opcao != 2 || opcao != 1){
+      printf("opcão invalida\n");
+    }
+    }while(opcao != 1);
+
+  }while(escolha != 7);
+}
+

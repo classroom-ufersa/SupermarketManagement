@@ -3,6 +3,7 @@
 #include"departamento.c"
 
 int main(void) {
+
   setlocale(LC_ALL,"Portuguese");
   int escolha = 0, estoque;
   char produto_procurado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50];
