@@ -361,7 +361,7 @@ void minuscula(char* nome){
     strcpy(nome,aux);
 }
 
-int verificar_se_e_numero(){
+int somente_numeros(){
     int valor, retorno = -1;
     char letra;
     do{
@@ -389,7 +389,7 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
     imprime_menu_edita();
     printf("digite a opção que deseja: ");
     //scanf("%d",&escolha);
-    escolha=verificar_se_e_numero();
+    escolha=somente_numeros();
     switch (escolha){
       case 1:
         printf("digite novo nome do produto: \n");
@@ -435,7 +435,7 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
     do{
     printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n");
     //scanf("%d",&opcao);
-      opcao = verificar_se_e_numero();
+      opcao = somente_numeros();
     if(opcao == 2){
       printf("item editado com sucesso\n");
       printf("nome do produto: %s\ndata de validade do produto: %s\ndata de fabricação do produto: %s\nquantidade em estoque desse produto: %d\npreço do produto: %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);

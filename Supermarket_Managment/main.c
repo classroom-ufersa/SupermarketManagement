@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <locale.h>
-#include"departamento.c"
+#include <time.h>
+#include "departamento.c"
 
 int main(void) {
-
   setlocale(LC_ALL,"Portuguese");
+  double tempo;
+  clock_t inicio;
+  clock_t fim;
+  inicio = clock();
+ 
   int escolha = 0, estoque;
   char produto_procurado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50];
   char nome_produto_editar[50],nome_encontrar_departamento[50],nome_produto_removido[50];
@@ -18,7 +23,7 @@ int main(void) {
     imprime_menu();
     printf("digite a opção que deseja: ");
     //scanf("%d",&escolha);
-    escolha =  verificar_se_e_numero();
+    escolha =  somente_numeros();
     switch(escolha){
       case 1:
 
@@ -106,6 +111,10 @@ int main(void) {
 
   libera_memoria(departamentos);
   lista_departamento_imprime(departamentos);
+  fim = clock();
+  tempo = (double) (fim - inicio) / (CLOCKS_PER_SEC/1000);
+  printf("tempo gasto na execução do codigo: %lf\n",tempo);
+
   return 0;
 }
 
