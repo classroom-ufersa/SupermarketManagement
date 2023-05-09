@@ -19,7 +19,6 @@ int main(void) {
     printf("digite a opção que deseja: ");
     //scanf("%d",&escolha);
     escolha =  verificar_se_e_numero();
-    exit(1);
     switch(escolha){
       case 1:
 

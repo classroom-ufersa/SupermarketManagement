@@ -361,15 +361,20 @@ void minuscula(char* nome){
     strcpy(nome,aux);
 }
 
-void minuscula(char* nome){
-    int i = 0;
-    char aux[50];
-    strcpy(aux,nome);
-    while(aux[i] != '\0'){
-      aux[i] = tolower(aux[i]);
-      i++;
-    }
-    strcpy(nome,aux);
+int verificar_se_e_numero(){
+    int valor, retorno = -1;
+    char letra;
+    do{
+        printf("Digite um valor: ");
+        retorno = scanf("%d", &valor);
+       //printf("Retorno: %d\n", retorno);
+        do{
+          letra = getchar();
+          //printf("%c", letra);
+        }while(letra != '\n');
+    }while(retorno == 0);
+    //printf("Valor digitado: %d\n", valor);
+    return valor;
 }
 
 
@@ -429,17 +434,17 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
 
     do{
     printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n");
-    scanf("%d",&opcao);
+    //scanf("%d",&opcao);
+      opcao = verificar_se_e_numero();
     if(opcao == 2){
       printf("item editado com sucesso\n");
       printf("nome do produto: %s\ndata de validade do produto: %s\ndata de fabricação do produto: %s\nquantidade em estoque desse produto: %d\npreço do produto: %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
       escolha = 7;
       opcao = 1;
-    }else if(opcao != 2 || opcao != 1){
+    }else if(opcao != 2){
       printf("opcão invalida\n");
     }
     }while(opcao != 1);
-
   }while(escolha != 7);
 }
 
