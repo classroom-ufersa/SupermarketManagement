@@ -343,22 +343,34 @@ void imprime_menu_edita(){
   printf("1 - nome;\n2 - validade;\n3 - fabricacao;\n4 - nome_departamento;\n5 - estoque;\n6 -preço;\n7 - sair\n");
 }
 
+void minuscula(char* nome){
+    int i = 0;
+    char aux[50];
+    strcpy(aux,nome);
+    while(aux[i] != '\0'){
+      aux[i] = tolower(aux[i]);
+      i++;
+    }
+    strcpy(nome,aux);
+}
 
-void* editar_produto(Departamento* departamento, char* nome_produto){
+void editar_produto(Departamento* departamento, char* nome_produto){
   Produto* produto_editar = busca_produto(departamento,nome_produto);
   char tipo[50],validade[50],fabricacao[50],nome_departamento[50];
-  int escolha = 0, opcao;
+  int escolha, opcao;
 
   printf("%s %s %s %d %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
 
   do{
     imprime_menu_edita();
     printf("digite a opção que deseja: ");
-    scanf("%d",&escolha);
+    scanf(" %c",&escolha);
+    //escolha =  verificar_se_e_numero();
+    fflush(stdin);
     switch (escolha){
       case 1:
         printf("digite nome do produto\n");
-        scanf(" %[^\n]", nome_produto);
+        scanf(" %[^\n]",tipo);
         minuscula(tipo);
         strcpy(produto_editar->tipo,tipo);
         break;
@@ -399,27 +411,47 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
 
     do{
     printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n");
-    scanf("%d",&opcao);
-    if(opcao == 0){
+    //scanf(" %d",&opcao);
+    opcao = verificar_se_e_numero();
+    fflush(stdin);
+    if(opcao == 2){
       printf("item editado com sucesso\n");
       printf("%s %s %s %d %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
       escolha = 7;
-      opcao = 1;
-    }else if(opcao != 0 || opcao != 0){
+    }else if(opcao != 1 || opcao != 2){
       printf("opcão invalida\n");
     }
-    }while(opcao != 1);
 
+    }while(opcao != 1);
   }while(escolha != 7);
 }
 
-void minuscula(char* nome){
-    int i = 0;
-    char aux[50];
-    strcpy(aux,nome);
-    while(aux[i] != '\0'){
-      aux[i] = tolower(aux[i]);
-      i++;
-    }
-    strcpy(nome,aux);
+
+int verificar_se_e_numero(){
+    int valor, retorno = -1;
+    char letra;
+    do{
+        printf("Digite um valor: ");
+        retorno = scanf("%d", &valor);
+       //printf("Retorno: %d\n", retorno);
+        do{
+          letra = getchar();
+          //printf("%c", letra);
+        }while(letra != '\n');
+    }while(retorno == 0);
+    //printf("Valor digitado: %d\n", valor);
+    return valor;
 }
+
+
+// char* verifica_se_e_char(){
+//     int retorno = -1;
+//     char letra[50];
+//     do{
+//         printf("Digite um valor: ");
+//         retorno = scanf("%c", letra);
+//        //printf("Retorno: %d\n", retorno);
+//     }while(retorno 
+//     printf("Valor digitado: %s\n", letra);== 0);
+//     return letra;
+// }
