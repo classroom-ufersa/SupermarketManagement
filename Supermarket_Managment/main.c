@@ -11,14 +11,15 @@ int main(void) {
   float preco;
   Departamento* departamentos = ler_txt();
   Produto* produto_buscado;
- 
+  
 
   do{
     
     imprime_menu();
     printf("digite a opção que deseja: ");
-    scanf("%d",&escolha);
-    
+    //scanf("%d",&escolha);
+    escolha =  verificar_se_e_numero();
+    exit(1);
     switch(escolha){
       case 1:
 

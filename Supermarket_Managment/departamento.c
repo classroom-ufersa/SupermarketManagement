@@ -350,6 +350,16 @@ void imprime_menu_edita(){
   printf("1 - nome;\n2 - validade;\n3 - fabricacao;\n4 - nome do departamento;\n5 - quantidade em estoque;\n6 - preço;\n7 - sair\n");
 }
 
+void minuscula(char* nome){
+    int i = 0;
+    char aux[50];
+    strcpy(aux,nome);
+    while(aux[i] != '\0'){
+      aux[i] = tolower(aux[i]);
+      i++;
+    }
+    strcpy(nome,aux);
+}
 
 void minuscula(char* nome){
     int i = 0;
@@ -373,7 +383,8 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
   do{
     imprime_menu_edita();
     printf("digite a opção que deseja: ");
-    scanf("%d",&escolha);
+    //scanf("%d",&escolha);
+    escolha=verificar_se_e_numero();
     switch (escolha){
       case 1:
         printf("digite novo nome do produto: \n");
