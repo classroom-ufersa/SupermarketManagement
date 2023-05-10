@@ -231,4 +231,4 @@ void produtos_por_departamento(Departamento* departamento){
 }
 ```
 - **`Sair`**
-    - Essa função é responsavel pela finalização o programa.
+    - Essa funcionalidade é responsavel pela finalização o programa.
