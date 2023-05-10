@@ -212,8 +212,12 @@ void produtos_por_departamento(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento;
  
   while(departamento_auxiliar!=NULL){
+     if(verifica_departamento_vazio(departamento_auxiliar) == 0){
+      printf("\ndepartamento: %s\neste departamento está vazio",departamento_auxiliar->nome);  
+     }
+     else{
       printf("\ndepartamento: %s\nquantidade de produtos: %d\n\n",departamento_auxiliar->nome,departamento_auxiliar->quantidade_produtos);
-   
+     }
     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
   }
 
