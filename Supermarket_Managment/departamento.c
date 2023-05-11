@@ -251,9 +251,6 @@ void remove_produto(Departamento* departamento, char* nome_produto){
   Produto* produto_free;
 
   while(departamento_auxiliar != NULL){
-    //  if(verifica_departamento_vazio(departamento) == 0){
-    //     printf("\n\nnão há produtos neste departamento para remover\n");
-    //   }
     produto_auxiliar = departamento_auxiliar->lista_produtos;
     
     while (produto_auxiliar != NULL){
@@ -278,7 +275,7 @@ void remove_produto(Departamento* departamento, char* nome_produto){
         produto_free = produto_auxiliar;
         produto_auxiliar->proximo_produto->produto_anterior = produto_auxiliar->produto_anterior;
         produto_auxiliar->produto_anterior->proximo_produto = produto_auxiliar->proximo_produto;
-
+        
         }
          printf("%s %s %s %d %.2f\n",produto_free->tipo, produto_free->validade,produto_free->fabricacao,produto_free->estoque, produto_free->preco);
          free(produto_free);
@@ -355,7 +352,13 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
         printf("digite o novo nome do departamento: \n");
         scanf(" %[^\n]", nome_departamento);
         minuscula(nome_departamento);
-        strcpy(produto_editar->nome_departamento,nome_departamento);
+        if(verifica_departamento_existe(departamento,nome_departamento) == 0){
+          strcpy(produto_editar->nome_departamento,nome_departamento);
+          imprime_no_arquivo_produto(departamento);
+          ler_produto_txt(departamento);
+        }else{
+          printf("departamento nao existe\n");
+        }
         break;
       case 5:
         printf("digite a nova quantidade desse produto no estoque: \n");
@@ -406,7 +409,6 @@ void imprime_no_arquivo_produto(Departamento* departamento){
     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
     
   }
-
 }
 
 
@@ -424,8 +426,6 @@ void imprime_no_arquivo_departamento(Departamento* departamento){
     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
     
   }
-
-
 }
 
 int verifica_departamento_existe(Departamento* departamento, char* nome_departamento){
@@ -438,3 +438,32 @@ int verifica_departamento_existe(Departamento* departamento, char* nome_departam
   }
   return -1;
 }
+
+void insere_novo_produto(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
+  Departamento* departamento_auxiliar = departamento;
+  Produto* novo_produto = aloca_produto();
+  if(novo_produto == NULL){
+    printf("erro!!!");
+    exit(1);
+  }
+
+  strcpy(novo_produto->tipo,tipo);
+  strcpy(novo_produto->fabricacao,fabricacao);
+  strcpy(novo_produto->nome_departamento,nome_departamento);
+  strcpy(novo_produto->validade,validade);
+  novo_produto->estoque = estoque;
+  novo_produto->preco = preco;
+
+  while(departamento_auxiliar != NULL){
+    
+    if(strcmp(departamento_auxiliar->nome,nome_departamento) == 0){
+      novo_produto->proximo_produto = departamento_auxiliar->lista_produtos;
+      departamento_auxiliar->lista_produtos->produto_anterior = novo_produto;
+      departamento_auxiliar->lista_produtos = novo_produto;
+      departamento_auxiliar->quantidade_produtos++;
+    }
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+  departamento = departamento_auxiliar;
+}
+

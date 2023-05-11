@@ -83,7 +83,6 @@ int main(void) {
         printf("digite o nome do produto que deseja buscar: ");
         scanf(" %[^\n]",produto_procurado);
         minuscula(produto_procurado);
-        // busca_produto(departamentos,produto_buscado);
         produto_buscado = busca_produto(departamentos, produto_procurado);
         if(produto_buscado == NULL){
           printf("produto não encontrado");
@@ -133,17 +132,3 @@ int main(void) {
   return 0;
 }
 
-
-// #include<stdio.h>
-// #include"departamento.c"
-
-// int main(){
-//     Departamento* departamento = ler_txt();
-
-//         // insere_novo_produto(departamento,"arroz","10/10/2030","10/10/2029","5 disp","limpeza",4.0);
-//         // lista_imprime_txt(departamento);
-//         // busca_produto(departamento,"arroz");
-//         // produtos_por_departamento(departamento);
-//         // lista_departamento_imprime(departamento);
-//     return 0;
-// }
