@@ -124,7 +124,6 @@ int main(void) {
   }while(escolha!=8);
 
   libera_memoria(departamentos);
-  lista_departamento_imprime(departamentos);
   fim = clock();
   tempo = (double) (fim - inicio) / (CLOCKS_PER_SEC/1000);
   printf("tempo gasto na execução do codigo: %lf\n",tempo);

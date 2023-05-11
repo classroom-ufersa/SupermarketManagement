@@ -437,31 +437,35 @@ int verifica_departamento_existe(Departamento* departamento, char* nome_departam
   return -1;
 }
 
-void insere_novo_produto(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
-  Departamento* departamento_auxiliar = departamento;
-  Produto* novo_produto = aloca_produto();
-  if(novo_produto == NULL){
-    printf("erro!!!");
-    exit(1);
-  }
+// void insere_novo_produto(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
+//   Departamento* departamento_auxiliar = departamento;
+//   Produto* novo_produto = aloca_produto();
+//   if(novo_produto == NULL){
+//     printf("erro!!!");
+//     exit(1);
+//   }
 
-  strcpy(novo_produto->tipo,tipo);
-  strcpy(novo_produto->fabricacao,fabricacao);
-  strcpy(novo_produto->nome_departamento,nome_departamento);
-  strcpy(novo_produto->validade,validade);
-  novo_produto->estoque = estoque;
-  novo_produto->preco = preco;
+//   strcpy(novo_produto->tipo,tipo);
+//   strcpy(novo_produto->fabricacao,fabricacao);
+//   strcpy(novo_produto->nome_departamento,nome_departamento);
+//   strcpy(novo_produto->validade,validade);
+//   novo_produto->estoque = estoque;
+//   novo_produto->preco = preco;
 
-  while(departamento_auxiliar != NULL){
+//   while(departamento_auxiliar != NULL){
     
-    if(strcmp(departamento_auxiliar->nome,nome_departamento) == 0){
-      novo_produto->proximo_produto = departamento_auxiliar->lista_produtos;
-      departamento_auxiliar->lista_produtos->produto_anterior = novo_produto;
-      departamento_auxiliar->lista_produtos = novo_produto;
-      departamento_auxiliar->quantidade_produtos++;
-    }
-    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
-  }
-  departamento = departamento_auxiliar;
-}
+//     if(strcmp(departamento_auxiliar->nome,nome_departamento) == 0){
 
+//       novo_produto->proximo_produto = departamento_auxiliar->lista_produtos;
+//       departamento_auxiliar->lista_produtos->produto_anterior = novo_produto;
+//       departamento_auxiliar->lista_produtos = novo_produto;
+//       departamento_auxiliar->quantidade_produtos++;
+//     }
+//     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+//   }
+//   departamento = departamento_auxiliar;
+// }
+//   Produto* produto_contador = departamento_auxiliar->lista_produtos;
+//     if(strcmp(novo_produto->tipo,produto_contador->tipo) < 0){
+//       if(produto_contador->)
+//     }
