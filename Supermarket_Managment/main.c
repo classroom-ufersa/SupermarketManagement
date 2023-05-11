@@ -113,8 +113,7 @@ int main(void) {
       case 8://sair
 
         printf("\n|finalização do progama|\n");
-        imprime_no_arquivo_produto(departamentos);
-        imprime_no_arquivo_departamento(departamentos);
+        imprime_txt(departamentos);
 
         break;
       default:

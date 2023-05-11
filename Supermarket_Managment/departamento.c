@@ -83,7 +83,7 @@ Departamento* ler_departamento_txt(void){
   return departamento;
 }
 
-//função que lê os dados do arquivo produtos
+//função que lê os dados do arquivo produtos,o departamento é passado como parametro
 Departamento* ler_produto_txt(Departamento* departamento){
     Departamento* departamento_auxiliar = departamento;
     Produto* produto;
@@ -120,7 +120,7 @@ Departamento* ler_produto_txt(Departamento* departamento){
   return (departamento);
 }
 
-//função responsavel por imprimir todos os prodtos e departamentos que estão no sistema
+//função responsavel por imprimir todos os prodtos e departamentos que estão no sistema, para isso ela utiliza um departamento que é passado como parametro
 void lista_departamento_imprime(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento; 
   Produto* lista_produtos;
@@ -148,7 +148,7 @@ void lista_departamento_imprime(Departamento* departamento){
   }
 }
 
-//função responsavel por receber os dados do produto e inserir no sistema
+//função responsavel por receber todos os dados do produto e inserir ele no sistema
 void insere_novo_produto(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
   Departamento* departamento_auxiliar = departamento;
   Produto* novo_produto = aloca_produto();
@@ -178,11 +178,11 @@ void insere_novo_produto(Departamento* departamento, char* tipo, char* validade,
   departamento = departamento_auxiliar;
 }
 
-//busca um produto pelo nome
+//função responsavel por buscar um produto pelo nome, para isso ela recebe um departamento e o nome do produto que queremos buscar
 Produto* busca_produto(Departamento* departamento, char* nome_produto){
   Departamento* departamento_auxiliar = departamento;
   Produto* produto_auxiliar; 
-   //percorre
+   //percorre os departamentos e produtos para achar o produto
    while(departamento_auxiliar != NULL){
     produto_auxiliar = departamento_auxiliar->lista_produtos;
     while (produto_auxiliar != NULL){
@@ -197,7 +197,7 @@ Produto* busca_produto(Departamento* departamento, char* nome_produto){
   return NULL;
 }
 
-
+//função responsavel por listar a quantidade de produtos de cada departamento, para isso ela recebe um departamento como exemplo
 void produtos_por_departamento(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento;
  
@@ -213,24 +213,26 @@ void produtos_por_departamento(Departamento* departamento){
 
 }
 
+//função responsável por verificar se um departamento está vazio ou não
 int verifica_departamento_vazio(Departamento* departamento){
     return(departamento->quantidade_produtos == 0);
 }
 
+//função que verifica a quantidade de produtos que estão em estoque de um determinado departamento, para isso ela recebe o departamento e o nome do departamento que estão os produtos que deseja listar
 void verifica_produtos_estoque(Departamento* departamento, char*nome_departamento){
   Departamento* departamento_auxiliar=departamento;
   Produto* produto_auxiliar;
   while(departamento_auxiliar != NULL){
-
+    //para verificar se o nome que o usuario digitou é o mesmo que o do departamento
     if(strcmp(departamento_auxiliar->nome,nome_departamento) == 0){
       produto_auxiliar=departamento_auxiliar->lista_produtos;
       
       if(verifica_departamento_vazio(departamento_auxiliar) == 0){
         printf("\nnenhum produto cadastrado nesse departamento\n");
       }
-      
+      //percorre todos os produtos
       while(produto_auxiliar != NULL){
-
+        //para verificar se há produtos disponiveis em estoque
         if(produto_auxiliar->estoque != 0){
           printf("\n\nnome do produto: %s, quantidade disponivel: %d\n",produto_auxiliar->tipo,produto_auxiliar->estoque);
         }else{
@@ -245,7 +247,7 @@ void verifica_produtos_estoque(Departamento* departamento, char*nome_departament
   }
 }
 
-// reomove um produto pelo nome 
+// remove um produto utilizando o nome do produto, essa função recebe um departamento e o nome do produto que deseja retirar 
 void remove_produto(Departamento* departamento, char* nome_produto){
   int achou_produto=0; // para verificar se o produto existe
   Departamento* departamento_auxiliar = departamento;
@@ -302,13 +304,13 @@ void remove_produto(Departamento* departamento, char* nome_produto){
   }
 }
 
-// libera memoria alocada 
+// essa função é responsavel libera memoria alocada, para isso o departamento é passado como parametro
 void libera_memoria(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento;
   Departamento* departamento_free; 
   Produto* produto;  
   Produto* produto_auxiliar;
-
+  //para percorrer todos os departamentos
   while(departamento_auxiliar != NULL){
       produto = departamento_auxiliar->lista_produtos;
       while(produto != NULL){
@@ -322,14 +324,14 @@ void libera_memoria(Departamento* departamento){
   }
 }
 
-// menu de edição de produto
+// essa função imprime o menu que auxilia na edição do produto 
 void imprime_menu_edita(){
   printf("\n\tMenu de edição de produto:\n");
   printf("o que deseja editar?\n");
   printf("1 - nome;\n2 - validade;\n3 - fabricacao;\n4 - nome do departamento;\n5 - quantidade em estoque;\n6 - preço;\n7 - sair\n");
 }
 
-// edita produtos
+// função responsavel por editar um produto, ela recebe um departamento e o nome do produto que deseja editar
 void editar_produto(Departamento* departamento, char* nome_produto){
   Produto* produto_editar = busca_produto(departamento,nome_produto); // buscando o produto para a edição
   // variáveis auxiliares
@@ -410,7 +412,7 @@ void editar_produto(Departamento* departamento, char* nome_produto){
     }
     // perguntar ao usuario se ele deseja alterar mais alguma informação
     do{
-    printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n"); // escolha 
+    printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n"); 
       opcao = somente_numeros();
     if(opcao == 2){
       printf("item editado com sucesso\n");
@@ -424,7 +426,7 @@ void editar_produto(Departamento* departamento, char* nome_produto){
   }while(escolha != 7);
 }
 
-//para escrever os dados dos produtos no arquivo produtos
+// essa função imprime os dados dos produtos no arquivo produtos.txt, para isso o departamento é passado como parametro
 void imprime_no_arquivo_produto(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento;
   Produto* produto;
@@ -444,7 +446,7 @@ void imprime_no_arquivo_produto(Departamento* departamento){
   }
 }
 
-//para escrever os dados dos departamentos no arquivo departamentos
+// essa função imprime os dados dos departamentos no arquivo departamentos.txt, para isso o departamento é passado como parametro
 void imprime_no_arquivo_departamento(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento;
   
@@ -460,7 +462,7 @@ void imprime_no_arquivo_departamento(Departamento* departamento){
     
   }
 }
-//para verificar se um departamento existe
+//essa função verifica se um departamento especifico existe, para isso ela recebe um departamento e o nome do departamento que deseja verificar se existir
 int verifica_departamento_existe(Departamento* departamento, char* nome_departamento){
   Departamento* departamento_auxiliar = departamento;
   while(departamento_auxiliar != NULL){
@@ -472,6 +474,8 @@ int verifica_departamento_existe(Departamento* departamento, char* nome_departam
   return -1;
 }
 
+<<<<<<< HEAD
+=======
 // tentativa de ordenação! :(
 // void insere_novo_produto_ordenado(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
 //   Departamento* departamento_auxiliar = departamento;
@@ -583,3 +587,4 @@ void insere_novo_produto_ordenado(Departamento* departamento, char* tipo, char* 
   }
 
 }
+>>>>>>> e16ea7c674d11e1a349966cc568ac91b12b29a5e
