@@ -83,7 +83,6 @@ int main(void) {
         printf("digite o nome do produto que deseja buscar: ");
         scanf(" %[^\n]",produto_procurado);
         minuscula(produto_procurado);
-        // busca_produto(departamentos,produto_buscado);
         produto_buscado = busca_produto(departamentos, produto_procurado);
         if(produto_buscado == NULL){
           printf("produto não encontrado");

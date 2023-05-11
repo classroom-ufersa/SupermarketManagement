@@ -55,8 +55,6 @@ Departamento* ler_departamento_txt(void){
 Departamento* ler_linha_departamento(char* linha){
    Departamento* departamento = aloca_departamento();  
    sscanf(linha, " %[^|]| %[^\n]", departamento->nome, departamento->porte); 
-   // printf("%s\t%s\n",departamento->info_departamento->nome, departamento->info_departamento->porte); 
-   // printf("%s",linha); 
    return departamento;
 }
 
@@ -235,7 +233,6 @@ void verifica_produtos_estoque(Departamento* departamento, char*nome_departament
 
       }
 
-
     }
   departamento_auxiliar = departamento_auxiliar->proximo_departamento;
   }
@@ -251,9 +248,6 @@ void remove_produto(Departamento* departamento, char* nome_produto){
   Produto* produto_free;
 
   while(departamento_auxiliar != NULL){
-    //  if(verifica_departamento_vazio(departamento) == 0){
-    //     printf("\n\nnão há produtos neste departamento para remover\n");
-    //   }
     produto_auxiliar = departamento_auxiliar->lista_produtos;
     
     while (produto_auxiliar != NULL){
@@ -280,9 +274,10 @@ void remove_produto(Departamento* departamento, char* nome_produto){
         produto_auxiliar->produto_anterior->proximo_produto = produto_auxiliar->proximo_produto;
 
         }
+         printf("\ndados do produto que foi removido: \n");
          printf("%s %s %s %d %.2f\n",produto_free->tipo, produto_free->validade,produto_free->fabricacao,produto_free->estoque, produto_free->preco);
          free(produto_free);
-         printf("\nproduto removido com sucesso\n");
+        //  printf("\nproduto removido com sucesso\n");
       }
       produto_auxiliar = produto_auxiliar->proximo_produto;
     }
@@ -321,7 +316,7 @@ void imprime_menu_edita(){
 }
 
 
-void* editar_produto(Departamento* departamento, char* nome_produto){
+void editar_produto(Departamento* departamento, char* nome_produto){
   Produto* produto_editar = busca_produto(departamento,nome_produto);
   char tipo[50],validade[50],fabricacao[50],nome_departamento[50];
   int escolha = 0, opcao;
