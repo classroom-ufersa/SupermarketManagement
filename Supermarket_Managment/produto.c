@@ -34,7 +34,7 @@ Produto* aloca_produto(void){
 Produto* ler_linha_produto(char* linha){
   Produto* novo_produto = aloca_produto();
   sscanf(linha, " %[^|]|%[^|]|%[^|]|%[^|]|%d|%f\n",novo_produto->nome_departamento ,novo_produto->tipo, novo_produto->fabricacao, novo_produto->validade, &novo_produto->estoque, &novo_produto->preco);
-  printf("%s %s %s %s %d %.2f\n",novo_produto->nome_departamento ,novo_produto->tipo, novo_produto->fabricacao, novo_produto->validade, novo_produto->estoque, novo_produto->preco);
+  //printf("%s %s %s %s %d %.2f\n",novo_produto->nome_departamento ,novo_produto->tipo, novo_produto->fabricacao, novo_produto->validade, novo_produto->estoque, novo_produto->preco);
   return novo_produto;
 }
 
