@@ -19,6 +19,24 @@ int somente_numeros(){
     return valor;
 }
 
+float somente_numeros_preco(){ // lembrar de colocar ela no codigo
+    int retorno = -1;
+    float valor;
+    char letra;
+    int verifica = 0;
+    do{
+       if(verifica != 0){
+        printf("Por favor, digite apenas numeros: ");
+       }
+        retorno = scanf("%f", &valor);
+        do{
+          letra = getchar();
+        }while(letra != '\n');
+        verifica++;
+    }while(retorno == 0);
+    return valor;
+}
+
 void remover_especiais(char *nome_verificar) {
   int cont_original = 0, cont_nova = 0;
   char aux[50];

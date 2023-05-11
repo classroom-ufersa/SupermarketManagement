@@ -507,7 +507,8 @@ int verifica_departamento_existe(Departamento* departamento, char* nome_departam
 //     }
 
 
-Departamento* insere_ordenado(Lista2 *l, int v){
+// Departamento* insere_ordenado(Lista2 *l, int v){
+void insere_novo_produto_ordenado(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
     //inserção de elementos ordenados na lista duplamente encadeada
     // Lista2 * novo = (Lista2*) malloc(sizeof(Lista2));
     
@@ -525,19 +526,22 @@ Departamento* insere_ordenado(Lista2 *l, int v){
 
     // Lista2 * ant = NULL;
     // Lista2 * p = l;
-    Departamento* anterior = NULL;
-    Produto* produto_auxiliar; //= departamento_auxiliar->lista_produtos;
 
+    Produto* anterior = NULL;
+    Produto* produto_auxiliar; //= departamento_auxiliar->lista_produtos;
+  
+  while(departamento_auxiliar != NULL){
+    produto_auxiliar = departamento_auxiliar->lista_produtos;
+    
     // while(p!=NULL && p->info < v){
     //     ant = p;
     //     p = p->prox;
     // }
 
-  while(produto_auxiliar != NULL && strcmp(produto_auxiliar->tipo, novo_produto->tipo) < 0){
-    anterior = produto_auxiliar;
-    produto_auxiliar = produto_auxiliar->proximo_produto;
-  }
-
+    while(produto_auxiliar != NULL && strcmp(produto_auxiliar->tipo, novo_produto->tipo) < 0){
+      anterior = produto_auxiliar;
+      produto_auxiliar = produto_auxiliar->proximo_produto;
+    } 
 
     // if(ant==NULL){
     //     novo->prox = l;
@@ -546,32 +550,36 @@ Departamento* insere_ordenado(Lista2 *l, int v){
     //     return novo;
     // }
 
-  if(anterior == NULL){
-    novo_produto->proximo_produto; //= produto_auxiliar->lista_produtos;
-    novo_produto->produto_anterior = NULL;
-    produto_auxiliar->anterior = novo_produto;
-    //return novo_produto;
-  }
+    if(anterior == NULL){
+      novo_produto->proximo_produto = produto_auxiliar->lista_produtos;
+      novo_produto->produto_anterior = NULL;
+      produto_auxiliar->anterior = novo_produto;
+      //return novo_produto;
+      departamento_auxiliar->lista_produtos = novo_produto;
+    }
 
-
+    // else{
+    //     novo->prox = ant->prox;
+    //     novo->ant = ant;
+    //     ant->prox = novo;
+    //     if(p!=NULL)
+    //         p->ant = novo;
+    //     return l;
+    // }
 
     else{
-        novo->prox = ant->prox;
-        novo->ant = ant;
-        ant->prox = novo;
-        if(p!=NULL)
-            p->ant = novo;
-        return l;
+
+      novo_produto->proximo_produto = anterior->proximo_produto;
+      novo_produto->produto_anterior = anterior;
+      anterior->proximo_produto = novo_produto;
+      if(produto_auxiliar != NULL){
+        produto_auxiliar->produto_anterior = novo_produto;
+        departamento_auxiliar->lista_produtos = produto_auxiliar;
+        //return produto_auxiliar->lista_produtos;
+      }
     }
 
-  else{
-    novo_produto->proximo_produto = anterior->proximo_produto;
-    novo_produto->produto_anterior = anterior;
-    anterior->proximo_produto = novo_produto;
-    if(produto_auxiliar != NULL){
-      produto_auxiliar->produto_anterior = novo_produto;
-      //return departamento_auxiliar->lista_produtos;
-    }
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
   }
 
 }
