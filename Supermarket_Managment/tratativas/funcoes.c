@@ -22,11 +22,13 @@ int somente_numeros(){
 void remover_especiais(char *nome_verificar) {
   int cont_original = 0, cont_nova = 0;
   char aux[50];
-  
   // loop para percorrer toda a string
   while (nome_verificar[cont_original] != '\0') {
-    if (isalpha(nome_verificar[cont_original])) {
+    if (isalpha(nome_verificar[cont_original] )) {
       // Salvando na string auxiliar os valores que são somente caracteres 
+      aux[cont_nova] = nome_verificar[cont_original];
+      cont_nova++;
+    }else if(isspace(nome_verificar[cont_original])){
       aux[cont_nova] = nome_verificar[cont_original];
       cont_nova++;
     }

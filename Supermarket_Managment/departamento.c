@@ -3,7 +3,7 @@
 #include <string.h>
 #include "departamento.h"
 #include "produto.c"
-#include "/workspaces/SupermarketManagement/Supermarket_Managment/tratativas/funcoes.h" //
+#include "Supermarket_Managment/tratativas/funcoes.c" // 
 
 // typedef struct departamento Departamento;
 
@@ -505,3 +505,73 @@ int verifica_departamento_existe(Departamento* departamento, char* nome_departam
 //     if(strcmp(novo_produto->tipo,produto_contador->tipo) < 0){
 //       if(produto_contador->)
 //     }
+
+
+Departamento* insere_ordenado(Lista2 *l, int v){
+    //inserção de elementos ordenados na lista duplamente encadeada
+    // Lista2 * novo = (Lista2*) malloc(sizeof(Lista2));
+    
+    // novo->info = v;
+
+  Departamento* departamento_auxiliar = departamento;
+  Produto* novo_produto = aloca_produto();
+
+  strcpy(novo_produto->tipo,tipo);
+  strcpy(novo_produto->fabricacao,fabricacao);
+  strcpy(novo_produto->nome_departamento,nome_departamento);
+  strcpy(novo_produto->validade,validade);
+  novo_produto->estoque = estoque;
+  novo_produto->preco = preco;
+
+    // Lista2 * ant = NULL;
+    // Lista2 * p = l;
+    Departamento* anterior = NULL;
+    Produto* produto_auxiliar; //= departamento_auxiliar->lista_produtos;
+
+    // while(p!=NULL && p->info < v){
+    //     ant = p;
+    //     p = p->prox;
+    // }
+
+  while(produto_auxiliar != NULL && strcmp(produto_auxiliar->tipo, novo_produto->tipo) < 0){
+    anterior = produto_auxiliar;
+    produto_auxiliar = produto_auxiliar->proximo_produto;
+  }
+
+
+    // if(ant==NULL){
+    //     novo->prox = l;
+    //     novo->ant = NULL;
+    //     l->ant = novo;
+    //     return novo;
+    // }
+
+  if(anterior == NULL){
+    novo_produto->proximo_produto; //= produto_auxiliar->lista_produtos;
+    novo_produto->produto_anterior = NULL;
+    produto_auxiliar->anterior = novo_produto;
+    //return novo_produto;
+  }
+
+
+
+    else{
+        novo->prox = ant->prox;
+        novo->ant = ant;
+        ant->prox = novo;
+        if(p!=NULL)
+            p->ant = novo;
+        return l;
+    }
+
+  else{
+    novo_produto->proximo_produto = anterior->proximo_produto;
+    novo_produto->produto_anterior = anterior;
+    anterior->proximo_produto = novo_produto;
+    if(produto_auxiliar != NULL){
+      produto_auxiliar->produto_anterior = novo_produto;
+      //return departamento_auxiliar->lista_produtos;
+    }
+  }
+
+}
