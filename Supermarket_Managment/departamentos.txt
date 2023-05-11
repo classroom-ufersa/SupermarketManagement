@@ -1,4 +1,3 @@
+leite e derivados|pequeno
+alimentos|grande
 limpeza|medio
-bebida|medio
-comida|pequeno
-açougue|grande

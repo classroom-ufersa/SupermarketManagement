@@ -3,6 +3,7 @@
 #include <string.h>
 #include "departamento.h"
 #include "produto.c"
+#include "/workspaces/SupermarketManagement/Supermarket_Managment/tratativas/funcoes.h"
 
 
 // typedef struct departamento Departamento;
@@ -173,22 +174,6 @@ void insere_novo_produto(Departamento* departamento, char* tipo, char* validade,
 }
 
 
-void lista_imprime_txt(Departamento* departamentos){
-  Departamento* departamento_auxiliar = departamentos;
-  Produto* produtos;
-  FILE* arquivo = fopen("arquivo_teste.txt","wt");
-  while(departamento_auxiliar != NULL){
-    fprintf(arquivo,"%s| %s\n",departamento_auxiliar->nome,departamento_auxiliar->porte);
-    for(produtos = departamento_auxiliar->lista_produtos; produtos != NULL; produtos = produtos->proximo_produto){
-      fprintf(arquivo," %s| %s| %s| %d|%.2f\n", produtos->tipo,produtos->fabricacao, produtos->validade, produtos->estoque, produtos->preco);
-    }
-    fprintf(arquivo,"****\n");
-    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
-  }
-  fclose(arquivo);
-}
-
-
 Produto* busca_produto(Departamento* departamento, char* nome_produto){
   Departamento* departamento_auxiliar = departamento;
   Produto* produto_auxiliar; 
@@ -213,7 +198,7 @@ void produtos_por_departamento(Departamento* departamento){
  
   while(departamento_auxiliar!=NULL){
      if(verifica_departamento_vazio(departamento_auxiliar) == 0){
-      printf("\ndepartamento: %s\neste departamento está vazio",departamento_auxiliar->nome);  
+      printf("\ndepartamento: %s\neste departamento está vazio\n",departamento_auxiliar->nome);  
      }
      else{
       printf("\ndepartamento: %s\nquantidade de produtos: %d\n\n",departamento_auxiliar->nome,departamento_auxiliar->quantidade_produtos);
@@ -308,26 +293,6 @@ void remove_produto(Departamento* departamento, char* nome_produto){
   }
 }
 
-
-// char* verifica_digitou_frase(char* texto_digitado){
-//   char c;
-//   int i=0;
-//   do{
-//     c=getchar();
-//     if(isalpha(c) != 0 || c == 32){
-//       texto_digitado[i] = c;
-//       i++;
-//       printf("%c",c);
-//     }else if(c == 8 && i){
-//       texto_digitado[i] = '\0';
-//       i--;
-//       printf("\b \b");
-//     }
-//   }while(c != 13);
-//   texto_digitado[i] = '\0';
-//   return texto_digitado;
-// }
-
 void libera_memoria(Departamento* departamento){
   Departamento* departamento_auxiliar = departamento;
   Departamento* departamento_free;
@@ -345,6 +310,7 @@ void libera_memoria(Departamento* departamento){
     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
     free(departamento_free);
   }
+ 
 }
 
 
@@ -354,45 +320,17 @@ void imprime_menu_edita(){
   printf("1 - nome;\n2 - validade;\n3 - fabricacao;\n4 - nome do departamento;\n5 - quantidade em estoque;\n6 - preço;\n7 - sair\n");
 }
 
-void minuscula(char* nome){
-    int i = 0;
-    char aux[50];
-    strcpy(aux,nome);
-    while(aux[i] != '\0'){
-      aux[i] = tolower(aux[i]);
-      i++;
-    }
-    strcpy(nome,aux);
-}
-
-int somente_numeros(){
-    int valor, retorno = -1;
-    char letra;
-    do{
-        printf("Digite um valor: ");
-        retorno = scanf("%d", &valor);
-       //printf("Retorno: %d\n", retorno);
-        do{
-          letra = getchar();
-          //printf("%c", letra);
-        }while(letra != '\n');
-    }while(retorno == 0);
-    //printf("Valor digitado: %d\n", valor);
-    return valor;
-}
-
 
 void* editar_produto(Departamento* departamento, char* nome_produto){
   Produto* produto_editar = busca_produto(departamento,nome_produto);
   char tipo[50],validade[50],fabricacao[50],nome_departamento[50];
   int escolha = 0, opcao;
-
+  printf("\nproduto a ser editado:\n");
   printf("nome do produto:%s\ndata de validade do produto:%s\ndata de fabricação do produto:%s\nquantidade em estoque desse produto:%d\npreço do produto:%.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
 
   do{
     imprime_menu_edita();
     printf("digite a opção que deseja: ");
-    //scanf("%d",&escolha);
     escolha=somente_numeros();
     switch (escolha){
       case 1:
@@ -438,7 +376,6 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
 
     do{
     printf("mais alguma alteraçao a ser feita ?\n 1-sim ou 2-não\n");
-    //scanf("%d",&opcao);
       opcao = somente_numeros();
     if(opcao == 2){
       printf("item editado com sucesso\n");
@@ -452,3 +389,52 @@ void* editar_produto(Departamento* departamento, char* nome_produto){
   }while(escolha != 7);
 }
 
+void imprime_no_arquivo_produto(Departamento* departamento){
+  Departamento* departamento_auxiliar = departamento;
+  Produto* produto;
+  FILE* arquivo_produto = fopen("/workspaces/SupermarketManagement/Supermarket_Managment/produtos.txt","wt");
+  if(arquivo_produto == NULL){
+    printf("erro no arquivo produto");
+    exit(1);
+  }
+  while(departamento_auxiliar != NULL){
+    produto = departamento_auxiliar->lista_produtos;
+    while(produto != NULL){
+      fprintf(arquivo_produto,"%s|%s|%s|%s|%d|%.2f\n",produto->nome_departamento,produto->tipo,produto->validade,produto->fabricacao,produto->estoque,produto->preco);
+      produto = produto->proximo_produto; 
+    }
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+    
+  }
+
+}
+
+
+void imprime_no_arquivo_departamento(Departamento* departamento){
+  Departamento* departamento_auxiliar = departamento;
+  
+  FILE* arquivo_departamento = fopen("/workspaces/SupermarketManagement/Supermarket_Managment/departamentos.txt","wt");
+   if(arquivo_departamento == NULL){
+    printf("erro no arquivo produto");
+    exit(1);
+  }
+  while(departamento_auxiliar != NULL){
+    
+      fprintf(arquivo_departamento,"%s|%s\n",departamento_auxiliar->nome,departamento_auxiliar->porte);
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+    
+  }
+
+
+}
+
+int verifica_departamento_existe(Departamento* departamento, char* nome_departamento){
+  Departamento* departamento_auxiliar = departamento;
+  while(departamento_auxiliar != NULL){
+    if(strcmp(departamento->nome,nome_departamento) == 0){
+      return 0;
+    }
+    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
+  }
+  return -1;
+}

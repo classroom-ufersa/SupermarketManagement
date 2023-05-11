@@ -5,25 +5,18 @@
 int somente_numeros(){
     int valor, retorno = -1;
     char letra;
+    int verifica = 0;
     do{
-        printf("Digite um valor: ");
+       if(verifica != 0){
+        printf("Por favor, digite apenas numeros: ");
+       }
         retorno = scanf("%d", &valor);
         do{
           letra = getchar();
         }while(letra != '\n');
+        verifica++;
     }while(retorno == 0);
     return valor;
-}
-
-void minuscula(char* nome){
-    int i = 0;
-    char aux[50];
-    strcpy(aux,nome);
-    while(aux[i] != '\0'){
-      aux[i] = tolower(aux[i]);
-      i++;
-    }
-    strcpy(nome,aux);
 }
 
 void remover_especiais(char *nome_verificar) {
@@ -41,3 +34,16 @@ void remover_especiais(char *nome_verificar) {
   }
   strcpy(nome_verificar,aux);
 }
+
+void minuscula(char* nome){
+    int i = 0;
+    char aux[50];
+    strcpy(aux,nome);
+    while(aux[i] != '\0'){
+      aux[i] = tolower(aux[i]);
+      i++;
+    }
+    remover_especiais(aux);
+    strcpy(nome,aux);
+}
+
