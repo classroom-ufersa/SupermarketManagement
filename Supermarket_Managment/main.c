@@ -3,33 +3,36 @@
 #include <time.h>
 #include "departamento.c"
 
+#define N_caracteres 50
+
 int main(void) {
-  setlocale(LC_ALL,"Portuguese");
+  setlocale(LC_ALL,"Portuguese"); // comando para trabalhar com Portugês no código
+  //variáveis para calcular o tempo de execução
   double tempo;
   clock_t inicio;
   clock_t fim;
   inicio = clock();
- 
-  int escolha = 0, estoque;
-  char produto_procurado[50],tipo[50],validade[50],fabricacao[50],nome_departamento[50];
-  char nome_produto_editar[50],nome_encontrar_departamento[50],nome_produto_removido[50];
+  //variáveis auxiliares
+  int escolha = 0, estoque; 
+  char produto_procurado[N_caracteres],tipo[N_caracteres],validade[N_caracteres],fabricacao[N_caracteres],nome_departamento[N_caracteres];
+  char nome_produto_editar[N_caracteres],nome_encontrar_departamento[N_caracteres],nome_produto_removido[N_caracteres];
   float preco;
-  Departamento* departamentos = ler_txt();
-  Produto* produto_buscado;
+  Departamento* departamentos = ler_txt();  // lendo as informações dos arquivos
+  Produto* produto_buscado; // guarda o produto que foi buscado pelo usuario
   
 
   do{
     
     imprime_menu();
     printf("digite a opção que deseja: ");
-    escolha =  somente_numeros();
+    escolha =  somente_numeros(); // para garantir que o usuário digite apenas números
     switch(escolha){
-      case 1:
+      case 1://inserir produto
 
         printf("\n\ninserindo novo produto...\n");
         printf("digite o nome do produto: ");
         scanf(" %[^\n]",tipo);
-        minuscula(tipo);
+        minuscula(tipo);//para retirar os caracteres especiais e deixar o texto todo em minusculo
         printf("digite o preço do produto: ");
         scanf("%f",&preco);
         printf("digite a data de validade do produto(DD/MM/AAAA): ");
@@ -41,9 +44,9 @@ int main(void) {
         printf("digite o nome do departamento em que esse produto vai estar: ");
         scanf(" %[^\n]",nome_departamento);
         minuscula(nome_departamento);
-        if(verifica_departamento_existe(departamentos,nome_departamento) == 0){
+        if(verifica_departamento_existe(departamentos,nome_departamento) == 0){//verificando se o departamento digitado pertence no sistema
           produto_buscado = busca_produto(departamentos, tipo);
-        if(produto_buscado != NULL){
+        if(produto_buscado != NULL){ //verificando se o produto já existe no sistema
              insere_novo_produto(departamentos,tipo,validade,fabricacao,estoque,nome_departamento,preco);
         }else{
           printf("\no produto %s já existe no sistema\n",tipo);
@@ -54,7 +57,7 @@ int main(void) {
         
 
         break;
-      case 2:
+      case 2://remover produto
       
         printf("removendo produto...\n");
         printf("digite o nome do produto que deseja retirar: ");
@@ -63,13 +66,13 @@ int main(void) {
         remove_produto(departamentos,nome_produto_removido);
   
         break;
-      case 3:
+      case 3://listar produtos cadastrados
 
         printf("\nListando os departamentos:\n\n");
         lista_departamento_imprime(departamentos );
   
        break;
-      case 4:
+      case 4://editar produto
 
         printf("editando produto...\n");
         printf("digite o nome do produto que deseja editar: ");
@@ -77,14 +80,14 @@ int main(void) {
         minuscula(nome_produto_editar);
         editar_produto(departamentos, nome_produto_editar);
         break;
-      case 5:
+      case 5://buscar produto
 
         printf("Buscando produto...\n");
         printf("digite o nome do produto que deseja buscar: ");
         scanf(" %[^\n]",produto_procurado);
         minuscula(produto_procurado);
         produto_buscado = busca_produto(departamentos, produto_procurado);
-        if(produto_buscado == NULL){
+        if(produto_buscado == NULL){//verifica se o produto que foi buscado existe
           printf("produto não encontrado");
         }else{
           printf("nome do departamento que se encontra o produto: %s\n",produto_buscado->nome_departamento);
@@ -95,7 +98,7 @@ int main(void) {
         }
   
         break;
-      case 6:
+      case 6://Consultar produtos disponíveis em um dado departamento
 
         printf("digite o nome do departamento que deseja verificar a quantidade de produtos disponiveis: ");
         scanf(" %[^\n]",nome_encontrar_departamento);
@@ -103,15 +106,14 @@ int main(void) {
         verifica_produtos_estoque(departamentos,nome_encontrar_departamento);
 
         break;
-      case 7:
+      case 7://Consultar quantitativo de produtos por departamento
           produtos_por_departamento(departamentos);
 
         break;
-      case 8:
+      case 8://sair
 
         printf("\n|finalização do progama|\n");
-        imprime_no_arquivo_produto(departamentos);
-        imprime_no_arquivo_departamento(departamentos);
+        imprime_txt(departamentos);
 
         break;
       default:
@@ -123,7 +125,7 @@ int main(void) {
     
   }while(escolha!=8);
 
-  libera_memoria(departamentos);
+  libera_memoria(departamentos); // libera a memoria alocada
   fim = clock();
   tempo = (double) (fim - inicio) / (CLOCKS_PER_SEC/1000);
   printf("tempo gasto na execução do codigo: %lf\n",tempo);

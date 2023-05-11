@@ -17,12 +17,14 @@
   Produto* produto_anterior;
  };
 
+//alocação de produto
 Produto* aloca_produto(void){ 
    Produto* novo_produto = (Produto*)malloc(sizeof(Produto)); 
-   if (novo_produto == NULL){ 
+   if (novo_produto == NULL){//verifica se a alocação foi bem sucedida 
      printf("erro na alocaçâo do produto!\n"); 
      exit(1); 
    } 
+   //inicializando o produto
    novo_produto->produto_anterior = NULL;
    novo_produto->proximo_produto = NULL;
    novo_produto->estoque = 0;
@@ -30,7 +32,7 @@ Produto* aloca_produto(void){
    return novo_produto; 
 }
 
-
+//lendo as informações de determinada linha do arquivo produto
 Produto* ler_linha_produto(char* linha){
   Produto* novo_produto = aloca_produto();
   sscanf(linha, " %[^|]|%[^|]|%[^|]|%[^|]|%d|%f\n",novo_produto->nome_departamento ,novo_produto->tipo, novo_produto->fabricacao, novo_produto->validade, &novo_produto->estoque, &novo_produto->preco);
