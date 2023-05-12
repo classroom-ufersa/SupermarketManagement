@@ -52,6 +52,7 @@ void remover_especiais(char *nome_verificar) {
     }
     cont_original++;
   }
+  aux[cont_nova] = '\0';
   strcpy(nome_verificar,aux);
 }
 

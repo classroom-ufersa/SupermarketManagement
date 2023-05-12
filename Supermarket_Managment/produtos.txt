@@ -1,5 +1,8 @@
-limpeza|papel|20/10/2010|10/10/2030|5|6.70
-limpeza|papel|20/10/2010|10/10/2030|5|6.70
-limpeza|papel|20/10/2010|10/10/2030|5|6.70
-limpeza|papel|20/10/2010|10/10/2030|5|6.70
-limpeza|papel|20/10/2010|10/10/2030|5|6.70
+limpeza|poiqueira|0|0|0|1.00
+limpeza|papel|10/10/2030|20/10/2010|5|6.70
+limpeza|macarrao|10/10/2030|20/10/2010|5|6.70
+limpeza|ovo|10/10/2030|20/10/2010|5|89.00
+higiene|pasta de dente|0/0/0|10/0/0|12|10.00
+leite e derivados|queijo|10/10/2030|20/10/2010|5|6.70
+leite e derivados|arroz|0/0/0|10/0/0|12|10.00
+leite e derivados|queijo|0/0/0|10/0/0|12|478.00

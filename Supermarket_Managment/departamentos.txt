@@ -1,3 +1,4 @@
+acougue|medio
+limpeza|grande
+higiene|pequeno
 leite e derivados|pequeno
-alimentos|grande
-limpeza|medio

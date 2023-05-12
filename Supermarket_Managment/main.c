@@ -44,16 +44,16 @@ int main(void) {
         printf("digite o nome do departamento em que esse produto vai estar: ");
         scanf(" %[^\n]",nome_departamento);
         minuscula(nome_departamento);
-        if(verifica_departamento_existe(departamentos,nome_departamento) == 0){//verificando se o departamento digitado pertence no sistema
-          produto_buscado = busca_produto(departamentos, tipo);
-        if(produto_buscado != NULL){ //verificando se o produto já existe no sistema
-             insere_novo_produto(departamentos,tipo,validade,fabricacao,estoque,nome_departamento,preco);
-        }else{
-          printf("\no produto %s já existe no sistema\n",tipo);
-        }
-        }else{
-          printf("departamento não encontrado");
-        }
+        // if(verifica_departamento_existe(departamentos,nome_departamento) == 0){//verificando se o departamento digitado pertence no sistema
+        //   produto_buscado = busca_produto(departamentos, tipo);
+        // if(produto_buscado != NULL){ //verificando se o produto já existe no sistema
+         insere_novo_produto(departamentos,tipo,validade,fabricacao,estoque,nome_departamento,preco);
+        // }else{
+        //   printf("\no produto %s já existe no sistema\n",tipo);
+        // }
+        // }else{
+        //   printf("departamento não encontrado");
+        // }
         
 
         break;

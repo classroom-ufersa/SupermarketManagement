@@ -1,3 +1,4 @@
+#include "produto.h"
 
 typedef struct departamento Departamento;
 

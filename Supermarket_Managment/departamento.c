@@ -3,7 +3,7 @@
 #include <string.h>
 #include "departamento.h"
 #include "produto.c"
-#include "Supermarket_Managment/tratativas/funcoes.c" // 
+#include "/workspaces/SupermarketManagement/Supermarket_Managment/tratativas/funcoes.c" 
 
 // typedef struct departamento Departamento;
 
@@ -42,6 +42,11 @@ Departamento* ler_txt(){
   Departamento* departamento = ler_departamento_txt();
   departamento = ler_produto_txt(departamento);
   return departamento;
+}
+
+void imprime_txt(Departamento* departamento){
+  imprime_no_arquivo_produto(departamento);
+  imprime_no_arquivo_departamento(departamento);
 }
 
 //para ler uma linha do departamento
@@ -376,13 +381,13 @@ void editar_produto(Departamento* departamento, char* nome_produto){
         scanf(" %[^\n]", nome_departamento);
         minuscula(nome_departamento); // tornando o nome em minuscula 
         //verificando se o departamento digitado existe no sisema
-        if(verifica_departamento_existe(departamento,nome_departamento) == 0){
+        //  if((verifica_departamento_existe(departamento,nome_departamento) == 1)){
           strcpy(produto_editar->nome_departamento,nome_departamento);
           imprime_no_arquivo_produto(departamento); // imprime no arquivo produto
           ler_produto_txt(departamento);// ler do arquivo produtos
-        }else{
-          printf("departamento nao existe\n");
-        }
+        // }else{
+        //   printf("departamento nao existe\n");
+        // }
         break;
 
       case 5://alterar quantidade em estoque
@@ -394,14 +399,15 @@ void editar_produto(Departamento* departamento, char* nome_produto){
       case 6://alterar preço
 
         printf("digite o novo preço do produto: \n");
-        scanf("%f",&produto_editar->preco);
+        produto_editar->preco = somente_numeros_preco();
+        // scanf("%f",&produto_editar->preco);
         break;
 
       case 7://sair do menu de edição
 
         printf("item editado com sucesso\n");
-        printf("dados do produto: ")
-        printf("nome do produto:%s\ndata de validade do produto:%s\ndata de fabricação do produto:%s\nquantidade em estoque:%d\npreço do produto:%.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
+        printf("dados do produto: ");
+        printf("nome do produto:%s\ndata de validade do produto:%s\ndata de fabricação do produto:%s\nquantidade em estoque:%d\npreço do produto:%.2f\ndepartamento do produto:%s",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco,produto_editar->nome_departamento);
         break;
 
       default:
@@ -419,7 +425,7 @@ void editar_produto(Departamento* departamento, char* nome_produto){
       printf("nome do produto: %s\ndata de validade do produto: %s\ndata de fabricação do produto: %s\nquantidade em estoque desse produto: %d\npreço do produto: %.2f\n",produto_editar->tipo, produto_editar->validade,produto_editar->fabricacao,produto_editar->estoque, produto_editar->preco);
       escolha = 7;
       opcao = 1;
-    }else if(opcao != 2 || opcao != 1){
+    }else if(opcao != 2 ){
       printf("opcão invalida\n");
     }
     }while(opcao != 1);
@@ -467,23 +473,22 @@ int verifica_departamento_existe(Departamento* departamento, char* nome_departam
   Departamento* departamento_auxiliar = departamento;
   while(departamento_auxiliar != NULL){
     if(strcmp(departamento->nome,nome_departamento) == 0){
-      return 0;
+      return (1);
     }
     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
   }
-  return -1;
+  return (-1);
 }
 
-<<<<<<< HEAD
-=======
-// tentativa de ordenação! :(
+
 // void insere_novo_produto_ordenado(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
+//     //inserção de elementos ordenados na lista duplamente encadeada
+//     // Lista2 * novo = (Lista2*) malloc(sizeof(Lista2));
+    
+//     // novo->info = v;
+
 //   Departamento* departamento_auxiliar = departamento;
 //   Produto* novo_produto = aloca_produto();
-//   if(novo_produto == NULL){
-//     printf("erro!!!");
-//     exit(1);
-//   }
 
 //   strcpy(novo_produto->tipo,tipo);
 //   strcpy(novo_produto->fabricacao,fabricacao);
@@ -492,99 +497,62 @@ int verifica_departamento_existe(Departamento* departamento, char* nome_departam
 //   novo_produto->estoque = estoque;
 //   novo_produto->preco = preco;
 
-//   while(departamento_auxiliar != NULL){
-    
-//     if(strcmp(departamento_auxiliar->nome,nome_departamento) == 0){
+//     // Lista2 * ant = NULL;
+//     // Lista2 * p = l;
 
-//       novo_produto->proximo_produto = departamento_auxiliar->lista_produtos;
-//       departamento_auxiliar->lista_produtos->produto_anterior = novo_produto;
+//     Produto* anterior = NULL;
+//     Produto* produto_auxiliar; //= departamento_auxiliar->lista_produtos;
+  
+//   while(departamento_auxiliar != NULL){
+//     produto_auxiliar = departamento_auxiliar->lista_produtos;
+    
+//     // while(p!=NULL && p->info < v){
+//     //     ant = p;
+//     //     p = p->prox;
+//     // }
+
+//     while(produto_auxiliar != NULL && strcmp(produto_auxiliar->tipo, novo_produto->tipo) < 0){
+//       anterior = produto_auxiliar;
+//       produto_auxiliar = produto_auxiliar->proximo_produto;
+//     } 
+
+//     // if(ant==NULL){
+//     //     novo->prox = l;
+//     //     novo->ant = NULL;
+//     //     l->ant = novo;
+//     //     return novo;
+//     // }
+
+//     if(anterior == NULL){
+//       novo_produto->proximo_produto = produto_auxiliar->lista_produtos;
+//       novo_produto->produto_anterior = NULL;
+//       produto_auxiliar->anterior = novo_produto;
+//       //return novo_produto;
 //       departamento_auxiliar->lista_produtos = novo_produto;
-//       departamento_auxiliar->quantidade_produtos++;
 //     }
+
+//     // else{
+//     //     novo->prox = ant->prox;
+//     //     novo->ant = ant;
+//     //     ant->prox = novo;
+//     //     if(p!=NULL)
+//     //         p->ant = novo;
+//     //     return l;
+//     // }
+
+//     else{
+
+//       novo_produto->proximo_produto = anterior->proximo_produto;
+//       novo_produto->produto_anterior = anterior;
+//       anterior->proximo_produto = novo_produto;
+//       if(produto_auxiliar != NULL){
+//         produto_auxiliar->produto_anterior = novo_produto;
+//         departamento_auxiliar->lista_produtos = produto_auxiliar;
+//         //return produto_auxiliar->lista_produtos;
+//       }
+//     }
+
 //     departamento_auxiliar = departamento_auxiliar->proximo_departamento;
 //   }
-//   departamento = departamento_auxiliar;
+
 // }
-//   Produto* produto_contador = departamento_auxiliar->lista_produtos;
-//     if(strcmp(novo_produto->tipo,produto_contador->tipo) < 0){
-//       if(produto_contador->)
-//     }
-
-
-// Departamento* insere_ordenado(Lista2 *l, int v){
-void insere_novo_produto_ordenado(Departamento* departamento, char* tipo, char* validade, char* fabricacao, int estoque, char* nome_departamento, float preco){
-    //inserção de elementos ordenados na lista duplamente encadeada
-    // Lista2 * novo = (Lista2*) malloc(sizeof(Lista2));
-    
-    // novo->info = v;
-
-  Departamento* departamento_auxiliar = departamento;
-  Produto* novo_produto = aloca_produto();
-
-  strcpy(novo_produto->tipo,tipo);
-  strcpy(novo_produto->fabricacao,fabricacao);
-  strcpy(novo_produto->nome_departamento,nome_departamento);
-  strcpy(novo_produto->validade,validade);
-  novo_produto->estoque = estoque;
-  novo_produto->preco = preco;
-
-    // Lista2 * ant = NULL;
-    // Lista2 * p = l;
-
-    Produto* anterior = NULL;
-    Produto* produto_auxiliar; //= departamento_auxiliar->lista_produtos;
-  
-  while(departamento_auxiliar != NULL){
-    produto_auxiliar = departamento_auxiliar->lista_produtos;
-    
-    // while(p!=NULL && p->info < v){
-    //     ant = p;
-    //     p = p->prox;
-    // }
-
-    while(produto_auxiliar != NULL && strcmp(produto_auxiliar->tipo, novo_produto->tipo) < 0){
-      anterior = produto_auxiliar;
-      produto_auxiliar = produto_auxiliar->proximo_produto;
-    } 
-
-    // if(ant==NULL){
-    //     novo->prox = l;
-    //     novo->ant = NULL;
-    //     l->ant = novo;
-    //     return novo;
-    // }
-
-    if(anterior == NULL){
-      novo_produto->proximo_produto = produto_auxiliar->lista_produtos;
-      novo_produto->produto_anterior = NULL;
-      produto_auxiliar->anterior = novo_produto;
-      //return novo_produto;
-      departamento_auxiliar->lista_produtos = novo_produto;
-    }
-
-    // else{
-    //     novo->prox = ant->prox;
-    //     novo->ant = ant;
-    //     ant->prox = novo;
-    //     if(p!=NULL)
-    //         p->ant = novo;
-    //     return l;
-    // }
-
-    else{
-
-      novo_produto->proximo_produto = anterior->proximo_produto;
-      novo_produto->produto_anterior = anterior;
-      anterior->proximo_produto = novo_produto;
-      if(produto_auxiliar != NULL){
-        produto_auxiliar->produto_anterior = novo_produto;
-        departamento_auxiliar->lista_produtos = produto_auxiliar;
-        //return produto_auxiliar->lista_produtos;
-      }
-    }
-
-    departamento_auxiliar = departamento_auxiliar->proximo_departamento;
-  }
-
-}
->>>>>>> e16ea7c674d11e1a349966cc568ac91b12b29a5e
